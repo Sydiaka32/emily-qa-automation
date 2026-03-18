@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "types": ["@playwright/test", "node"],
+    "moduleResolution": "node",                // Helps resolve modules correctly
+    "baseUrl": ".",                            // Enables absolute imports
+    "paths": {
+      "@utils/*": ["utils/*"],                 //  alias for cleaner imports
+      "@tests/*": ["tests/*"]
+    }
+  },
+  "include": [
+    "tests/**/*.ts",
+    "utils/**/*.ts",                          
+    "playwright.config.ts"
+  ]
+}

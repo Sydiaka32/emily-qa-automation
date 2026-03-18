@@ -1,0 +1,32 @@
+import { getRequest } from "@utils/apiUtils";
+import { expect } from "@playwright/test";
+import { config } from "../../../../test.config";
+
+/**
+ * Get recalls list with pagination via Back Office
+ */
+export async function getRecallsBo(
+  token: string,
+  page: number = 0,
+  size: number = 10,
+): Promise<{ response: any; body: any }> {
+  const endpoint = `/api/v1/ct-admin/recalls?page=${page}&size=${size}`;
+
+  const { response, body } = await getRequest(
+    endpoint,
+    token,
+    config.backofficeBaseUrl,
+  );
+
+  expect(response.status()).toBe(200);
+
+  // Verify response structure
+  expect(body).toHaveProperty("total_pages");
+  expect(body).toHaveProperty("total_elements");
+  expect(body).toHaveProperty("content");
+  expect(Array.isArray(body.content)).toBe(true);
+
+  console.log(`Found ${body.total_elements} recalls in BO list`);
+
+  return { response, body };
+}

@@ -1,0 +1,29 @@
+{
+  "name": "emily-qa-automation",
+  "version": "1.0.0",
+  "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://git.emily.tech/emily/emily-qa-automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@types/node": "^24.7.2",
+    "@types/pg": "^8.15.5",
+    "allure-playwright": "^3.4.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3",
+    "prettier": "^3.6.2",
+    "uuid": "^13.0.0"
+  }
+}

@@ -1,0 +1,4989 @@
+{
+	"info": {
+		"_postman_id": "f4a6e695-00c7-4a62-a62e-2160709dc87e",
+		"name": "emily_api_release_2_1_0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34336021"
+	},
+	"item": [
+		{
+			"name": "Deposit/withdraw",
+			"item": [
+				{
+					"name": "Deposit fiat",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"test_dir_dep_SAR_XMBER006SAFF\",\r\n    \"amount\": 3.1,\r\n    \"currency\": \"SAR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{restapiDevUrl}}}/api/v1/json-deposit",
+							"host": [
+								"{{restapiDevUrl}}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"json-deposit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "okx",
+			"item": [
+				{
+					"name": "okx orders-pending",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Get current timestamp in ISO 8601 format (e.g., 2025-10-27T10:21:00.000Z)\r",
+									"const timestamp = new Date().toISOString();\r",
+									"\r",
+									"// Get secret key from Postman environment or collection variables\r",
+									"const secretKey = pm.environment.get(\"OKX_SECRET_KEY\") || \"A8277916C177A6F18E2A16ED62CA3004\";\r",
+									"\r",
+									"// Get request details\r",
+									"const method = pm.request.method; // GET\r",
+									"const url = pm.request.url; // Full URL\r",
+									"const path = url.path.join('/') + (url.query.toString() ? '?' + url.query.toString() : ''); // e.g., /api/v5/trade/orders-pending?ordType=post_only,fok,ioc&instType=SPOT\r",
+									"const body = pm.request.body ? pm.request.body.toString() : ''; // Empty for GET\r",
+									"\r",
+									"// Create prehash string: timestamp + method + requestPath + body\r",
+									"const message = timestamp + method + '/' + path + body;\r",
+									"\r",
+									"// Generate HMAC SHA256 signature\r",
+									"const signature = CryptoJS.HmacSHA256(message, secretKey).toString(CryptoJS.enc.Base64);\r",
+									"\r",
+									"// Set headers in the request\r",
+									"pm.request.headers.add({ key: 'OK-ACCESS-TIMESTAMP', value: timestamp });\r",
+									"pm.request.headers.add({ key: 'OK-ACCESS-SIGN', value: signature });"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "OK-ACCESS-KEY",
+								"value": "a06cae4d-04a2-41f0-a833-808d59a35fb4",
+								"type": "text"
+							},
+							{
+								"key": "OK-ACCESS-PASSPHRASE",
+								"value": "<9xN0C-{7hz~",
+								"type": "text"
+							},
+							{
+								"key": "OK-ACCESS-TIMESTAMP",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "OK-ACCESS-SIGN",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{okxUrl}}/api/v5/trade/orders-pending",
+							"host": [
+								"{{okxUrl}}"
+							],
+							"path": [
+								"api",
+								"v5",
+								"trade",
+								"orders-pending"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "okx balances",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Get current timestamp in ISO 8601 format (e.g., 2025-10-27T10:21:00.000Z)\r",
+									"const timestamp = new Date().toISOString();\r",
+									"\r",
+									"// Get secret key from Postman environment or collection variables\r",
+									"const secretKey = pm.environment.get(\"OKX_SECRET_KEY\") || \"A8277916C177A6F18E2A16ED62CA3004\";\r",
+									"\r",
+									"// Get request details\r",
+									"const method = pm.request.method; // GET\r",
+									"const url = pm.request.url; // Full URL\r",
+									"const path = url.path.join('/') + (url.query.toString() ? '?' + url.query.toString() : ''); // e.g., /api/v5/trade/orders-pending?ordType=post_only,fok,ioc&instType=SPOT\r",
+									"const body = pm.request.body ? pm.request.body.toString() : ''; // Empty for GET\r",
+									"\r",
+									"// Create prehash string: timestamp + method + requestPath + body\r",
+									"const message = timestamp + method + '/' + path + body;\r",
+									"\r",
+									"// Generate HMAC SHA256 signature\r",
+									"const signature = CryptoJS.HmacSHA256(message, secretKey).toString(CryptoJS.enc.Base64);\r",
+									"\r",
+									"// Set headers in the request\r",
+									"pm.request.headers.add({ key: 'OK-ACCESS-TIMESTAMP', value: timestamp });\r",
+									"pm.request.headers.add({ key: 'OK-ACCESS-SIGN', value: signature });"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "OK-ACCESS-KEY",
+								"value": "a06cae4d-04a2-41f0-a833-808d59a35fb4",
+								"type": "text"
+							},
+							{
+								"key": "OK-ACCESS-PASSPHRASE",
+								"value": "<9xN0C-{7hz~",
+								"type": "text"
+							},
+							{
+								"key": "OK-ACCESS-TIMESTAMP",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "OK-ACCESS-SIGN",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{okxUrl}}/api/v5/asset/balances",
+							"host": [
+								"{{okxUrl}}"
+							],
+							"path": [
+								"api",
+								"v5",
+								"asset",
+								"balances"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "api-key",
+			"item": [
+				{
+					"name": "Create member info dev",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-USERINFO",
+								"value": "eyJpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIm5hbWUiOiJzd2FnZ2VyLXVzZXIiLCJlbWFpbCI6InN3YWdnZXItdXNlckB4YWJldGEuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJpc3MiOiJodHRwczovL2tleWNsb2FrLmRldi54YWJldGEudGVjaC9yZWFsbXMvYmFja29mZmljZSJ9",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"apiKeys\": [\r\n    \"xbk_TzEzYXY5eExtQXRTY2ZZRm80Q3d4QWtqaEV3WVE2Q2M=\"\r\n  ],\r\n  \"url\": \"https://iso-emulator.sandbox.emily.com/iso/message/XMBER623SAFF\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{mpDevUrl}}/api/messaging/v1/messaging-admin/members/:member_xmi",
+							"host": [
+								"{{mpDevUrl}}"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"v1",
+								"messaging-admin",
+								"members",
+								":member_xmi"
+							],
+							"variable": [
+								{
+									"key": "member_xmi",
+									"value": "{{xmi}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create member info sandbox",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-USERINFO",
+								"value": "eyJpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIm5hbWUiOiJzd2FnZ2VyLXVzZXIiLCJlbWFpbCI6InN3YWdnZXItdXNlckB4YWJldGEuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJpc3MiOiJodHRwczovL2tleWNsb2FrLmRldi54YWJldGEudGVjaC9yZWFsbXMvYmFja29mZmljZSJ9",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"apiKeys\": [\r\n    \"xbk_QXhXZVN3MkhVRU5XQWR0b3dvTnM3Z3ZYVUVlZXRSdkM=\"\r\n  ],\r\n  \"url\": \"https://iso-emulator.sandbox.emily.com/iso/message/XMBER007BRFF\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://swagger.sandbox.emily.com/api/messaging/v1/messaging-admin/members/XMBER007BRFF",
+							"protocol": "https",
+							"host": [
+								"swagger",
+								"sandbox",
+								"emily",
+								"com"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"v1",
+								"messaging-admin",
+								"members",
+								"XMBER007BRFF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get member info dev",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-USERINFO",
+								"value": "eyJpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIm5hbWUiOiJzd2FnZ2VyLXVzZXIiLCJlbWFpbCI6InN3YWdnZXItdXNlckB4YWJldGEuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJpc3MiOiJodHRwczovL2tleWNsb2FrLmRldi54YWJldGEudGVjaC9yZWFsbXMvYmFja29mZmljZSJ9",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mpDevUrl}}/api/messaging/v1/messaging-admin/members/:member_xmi",
+							"host": [
+								"{{mpDevUrl}}"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"v1",
+								"messaging-admin",
+								"members",
+								":member_xmi"
+							],
+							"variable": [
+								{
+									"key": "member_xmi",
+									"value": "{{xmi}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "public key upload dev",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-USERINFO",
+								"value": "eyJpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIm5hbWUiOiJzd2FnZ2VyLXVzZXIiLCJlbWFpbCI6InN3YWdnZXItdXNlckB4YWJldGEuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJpc3MiOiJodHRwczovL2tleWNsb2FrLmRldi54YWJldGEudGVjaC9yZWFsbXMvYmFja29mZmljZSJ9",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "public",
+									"type": "file",
+									"src": "/C:/Users/emili/member-keys/public_key.pem"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{mpDevUrl}}/api/messaging/v1/messaging-admin/members/{{xmi}}/public",
+							"host": [
+								"{{mpDevUrl}}"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"v1",
+								"messaging-admin",
+								"members",
+								"{{xmi}}",
+								"public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "public key upload sandbox",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-USERINFO",
+								"value": "eyJpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIm5hbWUiOiJzd2FnZ2VyLXVzZXIiLCJlbWFpbCI6InN3YWdnZXItdXNlckB4YWJldGEuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJpc3MiOiJodHRwczovL2tleWNsb2FrLmRldi54YWJldGEudGVjaC9yZWFsbXMvYmFja29mZmljZSJ9",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "public",
+									"type": "file",
+									"src": "/C:/Users/emili/member-keys/public_key.pem"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://swagger.sandbox.emily.com/api/messaging/v1/messaging-admin/members/{{xmi}}/public",
+							"protocol": "https",
+							"host": [
+								"swagger",
+								"sandbox",
+								"emily",
+								"com"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"v1",
+								"messaging-admin",
+								"members",
+								"{{xmi}}",
+								"public"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "private key upload dev",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-USERINFO",
+								"value": "eyJpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIm5hbWUiOiJzd2FnZ2VyLXVzZXIiLCJlbWFpbCI6InN3YWdnZXItdXNlckB4YWJldGEuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJpc3MiOiJodHRwczovL2tleWNsb2FrLmRldi54YWJldGEudGVjaC9yZWFsbXMvYmFja29mZmljZSJ9",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "private",
+									"type": "file",
+									"src": "/C:/Users/emili/member-keys/private_key.pem"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{mpDevUrl}}/api/messaging/v1/messaging-admin/members/{{xmi}}/private",
+							"host": [
+								"{{mpDevUrl}}"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"v1",
+								"messaging-admin",
+								"members",
+								"{{xmi}}",
+								"private"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "private key upload sandbox",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-USERINFO",
+								"value": "eyJpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIm5hbWUiOiJzd2FnZ2VyLXVzZXIiLCJlbWFpbCI6InN3YWdnZXItdXNlckB4YWJldGEuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJpc3MiOiJodHRwczovL2tleWNsb2FrLmRldi54YWJldGEudGVjaC9yZWFsbXMvYmFja29mZmljZSJ9",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "private",
+									"type": "file",
+									"src": "/C:/Users/emili/member-keys/private_key.pem"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://swagger.sandbox.emily.com/api/messaging/v1/messaging-admin/members/{{xmi}}/private",
+							"protocol": "https",
+							"host": [
+								"swagger",
+								"sandbox",
+								"emily",
+								"com"
+							],
+							"path": [
+								"api",
+								"messaging",
+								"v1",
+								"messaging-admin",
+								"members",
+								"{{xmi}}",
+								"private"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "private key upload dev",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "X-API-KEY",
+								"value": "xbk_eWYwajR2VjBmZXdOdEdYQU5CTEZCSHVrc3R3aGFtU2E="
+							}
+						],
+						"url": {
+							"raw": "{{restapiDevUrl}}/api/v1/messaging/messages?xId=44391fec-a2f2-4331-a68f-1dda4afd1d89&page=0&size=10",
+							"host": [
+								"{{restapiDevUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"messaging",
+								"messages"
+							],
+							"query": [
+								{
+									"key": "xId",
+									"value": "44391fec-a2f2-4331-a68f-1dda4afd1d89"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "External API",
+			"item": [
+				{
+					"name": "core member api",
+					"item": [
+						{
+							"name": "Country-controller",
+							"item": [
+								{
+									"name": "get countries",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/countries/all",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"countries",
+												"all"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "purpose-category-controller",
+							"item": [
+								{
+									"name": "get purpose categories",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/purpose-categories",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"purpose-categories"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get purpose categories code",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/purpose-categories/EPAY",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"purpose-categories",
+												"EPAY"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "service-controller",
+							"item": [
+								{
+									"name": "get services",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/services",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"services"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get services code",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/services/wlt",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"services",
+												"wlt"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get services all",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/services/all",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"services",
+												"all"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "credit-transfer-controller",
+							"item": [
+								{
+									"name": "get creditors",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/credit-transfer/creditors",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"credit-transfer",
+												"creditors"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get creditor currencies",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/credit-transfer/creditors/XMBER004SASS/currencies",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"credit-transfer",
+												"creditors",
+												"XMBER004SASS",
+												"currencies"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "post ct validations",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"tx_id\": \"asdfasdf\",\r\n    \"sub_type\": \"cct\",\r\n    \"settlement_type\": \"DNS\",\r\n    \"creditor_currency\": \"SAR\",\r\n    \"debtor_account_number\": \"XR001_XMBER007SAFF_CLR_SAR\",\r\n    \"end_to_end_id\": \"sdfsdafsf\",\r\n    \"creditor_amount\": 2,\r\n    \"category_purpose_code\": \"SSBE\",\r\n    \"remittance_information\": \"\",\r\n    \"creditor_xmi\": \"XMBER011BRFF\",\r\n    \"requested_execution_date\": \"2025-05-20\",\r\n    \"debtor\": {\r\n        \"name\": \"Debtor name\",\r\n        \"country_code\": \"BR\",\r\n        \"account_identifier\": {\r\n            \"type\": \"iban\",\r\n            \"iban\": \"CD111111111111111111111111111111\"\r\n        }\r\n    },\r\n    \"creditor\": {\r\n        \"name\": \"Creditor name\",\r\n        \"country_code\": \"BR\",\r\n        \"account_identifier\": {\r\n            \"type\": \"other\",\r\n            \"identifier\": \"CD111111111111111111111111111117\"\r\n        }\r\n    },\r\n    \"debtor_agent\": {\r\n        \"agent_identifier\": {\r\n            \"type\": \"bic\",\r\n            \"bic\": \"XDCCFDSS\"\r\n        }\r\n    },\r\n    \"creditor_agent\": {\r\n        \"agent_identifier\": {\r\n            \"type\": \"bic\",\r\n            \"bic\": \"XDCCFDSR\"\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/credit-transfer/validations",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"credit-transfer",
+												"validations"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "post ct validations approve",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"tx_id\": \"asdfasdf\",\r\n    \"sub_type\": \"cct\",\r\n    \"settlement_type\": \"DNS\",\r\n    \"creditor_currency\": \"SAR\",\r\n    \"debtor_account_number\": \"XR001_XMBER007SAFF_CLR_SAR\",\r\n    \"end_to_end_id\": \"sdfsdafsf\",\r\n    \"creditor_amount\": 2,\r\n    \"category_purpose_code\": \"SSBE\",\r\n    \"remittance_information\": \"\",\r\n    \"creditor_xmi\": \"XMBER011BRFF\",\r\n    \"requested_execution_date\": \"2025-05-20\",\r\n    \"debtor\": {\r\n        \"name\": \"Debtor name\",\r\n        \"country_code\": \"BR\",\r\n        \"account_identifier\": {\r\n            \"type\": \"iban\",\r\n            \"iban\": \"CD111111111111111111111111111111\"\r\n        }\r\n    },\r\n    \"creditor\": {\r\n        \"name\": \"Creditor name\",\r\n        \"country_code\": \"BR\",\r\n        \"account_identifier\": {\r\n            \"type\": \"other\",\r\n            \"identifier\": \"CD111111111111111111111111111117\"\r\n        }\r\n    },\r\n    \"debtor_agent\": {\r\n        \"agent_identifier\": {\r\n            \"type\": \"bic\",\r\n            \"bic\": \"XDCCFDSS\"\r\n        }\r\n    },\r\n    \"creditor_agent\": {\r\n        \"agent_identifier\": {\r\n            \"type\": \"bic\",\r\n            \"bic\": \"XDCCFDSR\"\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/credit-transfer/validations/rEtsX3a2OaNThMzH/approve/cct",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"credit-transfer",
+												"validations",
+												"rEtsX3a2OaNThMzH",
+												"approve",
+												"cct"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "post ct min/max",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"tx_id\": \"asdfasdf\",\r\n    \"sub_type\": \"cct\",\r\n    \"settlement_type\": \"DNS\",\r\n    \"creditor_currency\": \"SAR\",\r\n    \"debtor_account_number\": \"XR001_XMBER007SAFF_CLR_SAR\",\r\n    \"end_to_end_id\": \"sdfsdafsf\",\r\n    \"creditor_amount\": 2,\r\n    \"category_purpose_code\": \"SSBE\",\r\n    \"remittance_information\": \"\",\r\n    \"creditor_xmi\": \"XMBER011BRFF\",\r\n    \"requested_execution_date\": \"2025-05-20\",\r\n    \"debtor\": {\r\n        \"name\": \"Debtor name\",\r\n        \"country_code\": \"BR\",\r\n        \"account_identifier\": {\r\n            \"type\": \"iban\",\r\n            \"iban\": \"CD111111111111111111111111111111\"\r\n        }\r\n    },\r\n    \"creditor\": {\r\n        \"name\": \"Creditor name\",\r\n        \"country_code\": \"BR\",\r\n        \"account_identifier\": {\r\n            \"type\": \"other\",\r\n            \"identifier\": \"CD111111111111111111111111111117\"\r\n        }\r\n    },\r\n    \"debtor_agent\": {\r\n        \"agent_identifier\": {\r\n            \"type\": \"bic\",\r\n            \"bic\": \"XDCCFDSS\"\r\n        }\r\n    },\r\n    \"creditor_agent\": {\r\n        \"agent_identifier\": {\r\n            \"type\": \"bic\",\r\n            \"bic\": \"XDCCFDSR\"\r\n        }\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/credit-transfer/debtor-amounts/SAR/AUD",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"credit-transfer",
+												"debtor-amounts",
+												"SAR",
+												"AUD"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "member-controller",
+							"item": [
+								{
+									"name": "Failed 500 - get debtor currencies",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "api.dev.emily.tech/api/v1/core/members/current/currencies",
+											"host": [
+												"api",
+												"dev",
+												"emily",
+												"tech"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"members",
+												"current",
+												"currencies"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get debtor currencies Copy",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "api.dev.emily.tech/api/v1/core/members/current",
+											"host": [
+												"api",
+												"dev",
+												"emily",
+												"tech"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"members",
+												"current"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get download csv",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{rest_api_core}}/members/download",
+											"host": [
+												"{{rest_api_core}}"
+											],
+											"path": [
+												"members",
+												"download"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Failed - get members xmi",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "api.dev.emily.tech/api/v1/core/members/XMBER261SAFF",
+											"host": [
+												"api",
+												"dev",
+												"emily",
+												"tech"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"members",
+												"XMBER261SAFF"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get active members",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "api.dev.emily.tech/api/v1/core/core/members",
+											"host": [
+												"api",
+												"dev",
+												"emily",
+												"tech"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"core",
+												"members"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get member block",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/members/XMBER016SAFF/block",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"members",
+												"XMBER016SAFF",
+												"block"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get member unblock",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/members/XMBER016SAFF/unblock",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"members",
+												"XMBER016SAFF",
+												"unblock"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get member unblock Copy",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"main_contact\": {\r\n    \"first_name\": \"Maskym\",\r\n    \"last_name\": \"Igny\",\r\n    \"phone\": \"+3825456951\",\r\n    \"email\": \"maxim.s@emily.com\"\r\n  },\r\n  \"alt_contact\": {\r\n    \"first_name\": \"Emily\",\r\n    \"last_name\": \"Vinsmoke\",\r\n    \"phone\": \"+3825456952\",\r\n    \"email\": \"maxim.s@emily.com\"\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/members/current/contacts",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"members",
+												"current",
+												"contacts"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "user-controller",
+							"item": [
+								{
+									"name": "get current permissions",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/current/permissions",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"current",
+												"permissions"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "confirm user pass change",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"request_id\": \"string\",\r\n  \"otp\": \"string\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/passwords/confirm",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"passwords",
+												"confirm"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "change pass",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"current_password\": \"emily_2024!\",\r\n    \"new_password\": \"emily_2025!\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/passwords",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"passwords"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "user  activate",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"current_password\": \"emily_2024!\",\r\n    \"new_password\": \"emily_2025!\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/a447a3bb-a573-47a8-8395-0f925cfbdaf8/activate",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"a447a3bb-a573-47a8-8395-0f925cfbdaf8",
+												"activate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "user  deactivate",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"current_password\": \"emily_2024!\",\r\n    \"new_password\": \"emily_2025!\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/a447a3bb-a573-47a8-8395-0f925cfbdaf8/deactivate",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"a447a3bb-a573-47a8-8395-0f925cfbdaf8",
+												"deactivate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "user reset-password",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"current_password\": \"emily_2024!\",\r\n    \"new_password\": \"emily_2025!\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/a447a3bb-a573-47a8-8395-0f925cfbdaf8/reset-password",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"a447a3bb-a573-47a8-8395-0f925cfbdaf8",
+												"reset-password"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update user role",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"current_password\": \"emily_2024!\",\r\n    \"new_password\": \"emily_2025!\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/a447a3bb-a573-47a8-8395-0f925cfbdaf8/roles/delegated_admin",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"a447a3bb-a573-47a8-8395-0f925cfbdaf8",
+												"roles",
+												"delegated_admin"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update user",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"first_name\": \"Test-2\",\r\n    \"last_name\": \"Last-2\",\r\n    \"phone_number\": \"+55454556345\",\r\n    \"email\": \"bepsipufyi@gufum.com\",\r\n    \"role\": \"delegated_admin\",\r\n    \"id\": \"a447a3bb-a573-47a8-8395-0f925cfbdaf8\",\r\n    \"active\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/a447a3bb-a573-47a8-8395-0f925cfbdaf8",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"a447a3bb-a573-47a8-8395-0f925cfbdaf8"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get user",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"first_name\": \"Test-2\",\r\n    \"last_name\": \"Last-2\",\r\n    \"phone_number\": \"+55454556345\",\r\n    \"email\": \"bepsipufyi@gufum.com\",\r\n    \"role\": \"delegated_admin\",\r\n    \"id\": \"a447a3bb-a573-47a8-8395-0f925cfbdaf8\",\r\n    \"active\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users/a447a3bb-a573-47a8-8395-0f925cfbdaf8",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users",
+												"a447a3bb-a573-47a8-8395-0f925cfbdaf8"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create user",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"first_name\": \"Test-18\",\r\n    \"last_name\": \"Last-18\",\r\n    \"phone_number\": \"+55454556345\",\r\n    \"email\": \"bepsipufyi+12@gufum.com\",\r\n    \"role\": \"delegated_admin\",\r\n    \"id\": \"a447a3bb-a573-47a8-8395-0f925cfbdaf8\",\r\n    \"active\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create user Copy",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"first_name\": \"Maksym\",\r\n    \"last_name\": \"Semi\",\r\n    \"phone_number\": \"+55454556345\",\r\n    \"email\": \"maxim.s+40@emily.com\",\r\n    \"role\": \"delegated_admin\",\r\n    \"id\": \"a447a3bb-a573-47a8-8395-0f925cfbdaf8\",\r\n    \"active\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create user Copy 2",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"first_name\": \"Maksym\",\r\n    \"last_name\": \"Semi\",\r\n    \"phone_number\": \"+55454556345\",\r\n    \"email\": \"maxim.s+40@emily.com\",\r\n    \"role\": \"delegated_admin\",\r\n    \"id\": \"a447a3bb-a573-47a8-8395-0f925cfbdaf8\",\r\n    \"active\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/api/v1/core/users",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"core",
+												"users"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "market-app",
+					"item": [
+						{
+							"name": "user-data-controller",
+							"item": [
+								{
+									"name": "trades",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/members/trades",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"members",
+												"trades"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "trades single",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/members/trades/XT2025140164329271699",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"members",
+												"trades",
+												"XT2025140164329271699"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "orders",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/members/orders",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"members",
+												"orders"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "orders single",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/members/orders/XO2025140154309559798",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"members",
+												"orders",
+												"XO2025140154309559798"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "trades for order",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/members/orders/XO2025140149605497158/trades",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"members",
+												"orders",
+												"XO2025140149605497158",
+												"trades"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "rate-controller",
+							"item": [
+								{
+									"name": "rates",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/rates",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"rates"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "rates base",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/rates/SAR?quote=BRL",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"rates",
+												"SAR"
+											],
+											"query": [
+												{
+													"key": "quote",
+													"value": "BRL"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "rates base quote",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/rates/SAR/BRL/external/REUTERS",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"rates",
+												"SAR",
+												"BRL",
+												"external",
+												"REUTERS"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "pairs-controller",
+							"item": [
+								{
+									"name": "pairs",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/pairs",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"pairs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pair",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/pairs/SAR/AUD",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"pairs",
+												"SAR",
+												"AUD"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pair exists",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/pairs/BRL/AUD/exists",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"pairs",
+												"BRL",
+												"AUD",
+												"exists"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pairs Copy",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"base\": \"BRL\",\r\n  \"quote\": \"AUD\",\r\n  \"minOrderAmount\": 0,\r\n  \"maxOrderAmount\": 100\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/pairs",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"pairs"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "feed-controller",
+							"item": [
+								{
+									"name": "feed",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/feed",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"feed"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "feed live",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/feed/live",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"feed",
+												"live"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "currency",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_dev}}/currency/pairs?source=EXTERNAL",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"currency",
+										"pairs"
+									],
+									"query": [
+										{
+											"key": "source",
+											"value": "EXTERNAL"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "order-book",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_dev}}/markets/SARBRL/order-books?direction=ASK",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"markets",
+										"SARBRL",
+										"order-books"
+									],
+									"query": [
+										{
+											"key": "direction",
+											"value": "ASK"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "stream",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_dev}}/markets/SARBRL/order-books/stream?direction=ASK",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"markets",
+										"SARBRL",
+										"order-books",
+										"stream"
+									],
+									"query": [
+										{
+											"key": "direction",
+											"value": "ASK"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "best-prices",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_dev}}/markets/order-books/best-prices/SAR?quote=BRL&direction=ASK&quantity=1",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"markets",
+										"order-books",
+										"best-prices",
+										"SAR"
+									],
+									"query": [
+										{
+											"key": "quote",
+											"value": "BRL"
+										},
+										{
+											"key": "direction",
+											"value": "ASK"
+										},
+										{
+											"key": "quantity",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ledger",
+					"item": [
+						{
+							"name": "member-details-controller",
+							"item": [
+								{
+									"name": "get current",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/current",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"current"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get current indirect",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/ledger/current/indirect",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"current",
+												"indirect"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get current credit-limit",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/ledger/current/credit-limit",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"current",
+												"credit-limit"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get current Copy",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"amount\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/current/XMBER957SAFF/credit-limit",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"current",
+												"XMBER957SAFF",
+												"credit-limit"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "member-assets-controller",
+							"item": [
+								{
+									"name": "asset enable",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/ledger/assets/SAR/enable",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"assets",
+												"SAR",
+												"enable"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "asset disable",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/ledger/assets/SAR/disable",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"assets",
+												"SAR",
+												"disable"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get member assets",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/ledger/assets",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"assets"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get current credit-limit",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/ledger/assets/XMBER656SAFF",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"assets",
+												"XMBER656SAFF"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "member-transaction-cotroller",
+							"item": [
+								{
+									"name": "asset enable",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"reason_code\": \"RR03\",\r\n  \"reason_info\": \"string\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140436032841346/return",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140436032841346",
+												"return"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recall reject",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"reason_code\": \"CUST\",\r\n  \"reason_info\": \"Customer Decision\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140485053012392/recall_reject",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140485053012392",
+												"recall_reject"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recall accept",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140159680554515/recall_accept",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140159680554515",
+												"recall_accept"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recall",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"reason_code\": \"CUST\",\r\n  \"reason_info\": \"Requested by customer\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140075231459638/recall",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140075231459638",
+												"recall"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "execution-date",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"execution_date\": \"2025-05-21\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140545852731868/execution-date",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140545852731868",
+												"execution-date"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "cancel",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140195268523076/cancel",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140195268523076",
+												"cancel"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get transactions",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "single transaction",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140545852731868",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140545852731868"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "single transaction download",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140545852731868/download",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140545852731868",
+												"download"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "single transaction discover",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/XCTR2025140545852731868/discover",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"XCTR2025140545852731868",
+												"discover"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "return reasons",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/return-reasons",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"return-reasons"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "return reasons code",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/return-reasons/RR04",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"return-reasons",
+												"RR04"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recalls",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/recalls",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"recalls"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recall reasons",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/recall-reject-reasons",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"recall-reject-reasons"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recall reasons code",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/recall-reject-reasons/NOOR",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"recall-reject-reasons",
+												"NOOR"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recall reasons code Copy",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/recall-reasons",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"recall-reasons"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recall reasons code Copy 2",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/recall-reasons/CUST",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"recall-reasons",
+												"CUST"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "recall reasons code Copy 3",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/transactions/latest",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"transactions",
+												"latest"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "member-wallets-controller",
+							"item": [
+								{
+									"name": "wallet trasfer validate",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"member_xmi\": \"XMBER011BRFF\",\r\n  \"amount\": 0.00020,\r\n  \"currency\": \"XTG\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/member-wallets/transfer-to-member/validate",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"member-wallets",
+												"transfer-to-member",
+												"validate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "wallet trasfer validate Copy",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"address\": \"0xacb817e4df128f9364d7a0e7412df3d4e1e70d65\",\r\n  \"amount\": 0.00020,\r\n  \"currency\": \"XTG\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/member-wallets/transfer-to-address/validate",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"member-wallets",
+												"transfer-to-address",
+												"validate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "wallet trasfer validate Copy 2",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"address\": \"0xacb817e4df128f9364d7a0e7412df3d4e1e70d65\",\r\n  \"amount\": 0.00020,\r\n  \"currency\": \"XTG\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/member-wallets/transfer-to-address/send",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"member-wallets",
+												"transfer-to-address",
+												"send"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "wallet trasfer send",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"member_xmi\": \"XMBER011BRFF\",\r\n  \"amount\": 0.00020,\r\n  \"currency\": \"XTG\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/member-wallets/transfer-to-member/send",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"member-wallets",
+												"transfer-to-member",
+												"send"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "wallet trasfer send Copy",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"member_xmi\": \"XMBER011BRFF\",\r\n  \"amount\": 0.00020,\r\n  \"currency\": \"XTG\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/member-wallets/address",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"member-wallets",
+												"address"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "wallet trasfer send Copy 2",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"member_xmi\": \"XMBER011BRFF\",\r\n  \"amount\": 0.00020,\r\n  \"currency\": \"XTG\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/member-wallets",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"member-wallets"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "wallet trasfer send Copy 2",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"address\": \"0x47dd072eeb97b1ec9c3140a5cd743874190dc76f\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/member-wallets/address",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"member-wallets",
+												"address"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "member-vault-collateral-controller",
+							"item": [
+								{
+									"name": "collaterals",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/vault-collaterals",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"vault-collaterals"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "collaterals Copy",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/vault-collaterals/59/documents/327993ad-3139-4761-a869-88d7feb5bf33",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"vault-collaterals",
+												"59",
+												"documents",
+												"327993ad-3139-4761-a869-88d7feb5bf33"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "member-positions-controller",
+							"item": [
+								{
+									"name": "positions",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/positions",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"positions"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "positions non-domestic",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/ledger/positions/non-domestic",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"ledger",
+												"positions",
+												"non-domestic"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "matching-gateway",
+					"item": [
+						{
+							"name": "positions Copy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_dev}}/members/orders",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"members",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "positions Copy 2",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_dev}}/members/orders/XO2025140154309559798/cancel",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"members",
+										"orders",
+										"XO2025140154309559798",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "settlement-api",
+					"item": [
+						{
+							"name": "member-settlement-controller",
+							"item": [
+								{
+									"name": "settlements",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/settlement/settlements",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"settlement",
+												"settlements"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "reconciliation reports",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/settlement/reconciliation-reports/DRC_X_XMBER007SAFF_20250518_SAR_DNS.txt",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"settlement",
+												"reconciliation-reports",
+												"DRC_X_XMBER007SAFF_20250518_SAR_DNS.txt"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "member-business-day-controller",
+							"item": [
+								{
+									"name": "bd",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/settlement/business_days",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"settlement",
+												"business_days"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "bd single",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/settlement/business_days/2025-05-13",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"settlement",
+												"business_days",
+												"2025-05-13"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "current",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/settlement/business_days/current",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"settlement",
+												"business_days",
+												"current"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "account-statement-report",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-API-KEY",
+												"value": "{{api_key_max}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api_dev}}/settlement/account-statement-reports/csv?from=2025-05-18&to=2025-05-18",
+											"host": [
+												"{{api_dev}}"
+											],
+											"path": [
+												"settlement",
+												"account-statement-reports",
+												"csv"
+											],
+											"query": [
+												{
+													"key": "from",
+													"value": "2025-05-18"
+												},
+												{
+													"key": "to",
+													"value": "2025-05-18"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "messaging",
+					"item": [
+						{
+							"name": "messages",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_dev}}/messaging/messages",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"messaging",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "message history",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_dev}}/messaging/messages/fad312e3-25f8-47d1-a8e5-04a284262e5f/history",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"messaging",
+										"messages",
+										"fad312e3-25f8-47d1-a8e5-04a284262e5f",
+										"history"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "message download",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"leftCurrency\": \"BRL\",\r\n  \"rightCurrency\": \"SAR\",\r\n  \"price\": 1,\r\n  \"quantity\": 1,\r\n  \"direction\": \"ASK\",\r\n  \"orderType\": \"LIMIT\",\r\n  \"constraint\": \"GTC\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_dev}}/messaging/messages/fad312e3-25f8-47d1-a8e5-04a284262e5f/download",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"messaging",
+										"messages",
+										"fad312e3-25f8-47d1-a8e5-04a284262e5f",
+										"download"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "message download Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-API-KEY",
+										"value": "{{api_key_max}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_dev}}/messaging/messages/download",
+									"host": [
+										"{{api_dev}}"
+									],
+									"path": [
+										"messaging",
+										"messages",
+										"download"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "rate-inquiry",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{api_key_max}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{rest_api_base}}/rate-inquiry?type=MR&pair=SARBRL&direction=BID&amount=1",
+							"host": [
+								"{{rest_api_base}}"
+							],
+							"path": [
+								"rate-inquiry"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "MR"
+								},
+								{
+									"key": "pair",
+									"value": "SARBRL"
+								},
+								{
+									"key": "direction",
+									"value": "BID"
+								},
+								{
+									"key": "amount",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rate-inquiry Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "{{api_key_max}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "restapi.sandbox.emily.tech/api/v1/rate-inquiry?type=MR&pair=SARBRL&direction=BID&amount=1",
+							"host": [
+								"restapi",
+								"sandbox",
+								"emily",
+								"tech"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rate-inquiry"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "MR"
+								},
+								{
+									"key": "pair",
+									"value": "SARBRL"
+								},
+								{
+									"key": "direction",
+									"value": "BID"
+								},
+								{
+									"key": "amount",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Life-feed",
+			"item": [
+				{
+					"name": "AuthMaker",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"token_maker\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "front-client",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "maxim.s@emily.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "emily_2024!",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloakUrl}}/realms/emily/protocol/openid-connect/token",
+							"host": [
+								"{{keycloakUrl}}"
+							],
+							"path": [
+								"realms",
+								"emily",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						},
+						"description": "Generated from cURL: curl -d 'client_id=front-client' -d 'username=<user>' -d 'password=<password>' -d 'grant_type=password' \\       \n  'https://keycloak.dev.emily.tech/realms/backoffice/protocol/openid-connect/token'"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"token_admin\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "front-client",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "emily_2024!",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloakUrl}}realms/backoffice/protocol/openid-connect/token",
+							"host": [
+								"{{keycloakUrl}}realms"
+							],
+							"path": [
+								"backoffice",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						},
+						"description": "Generated from cURL: curl -d 'client_id=front-client' -d 'username=<user>' -d 'password=<password>' -d 'grant_type=password' \\       \n  'https://keycloak.dev.emily.tech/realms/backoffice/protocol/openid-connect/token'"
+					},
+					"response": []
+				},
+				{
+					"name": "Rates",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-KEY",
+								"value": "xbk_eHNnak9MbjhoOFp2Y1NWSGhnTVJhSEZ1c2tUOXIzMkM=",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{restapiDevUrl}}/api/v1/feed",
+							"host": [
+								"{{restapiDevUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"feed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rates Live",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "X-USERINFO",
+								"value": "eyJpZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIm5hbWUiOiJzd2FnZ2VyLXVzZXIiLCJlbWFpbCI6InN3YWdnZXItdXNlckB4YWJldGEuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJpc3MiOiJodHRwczovL2tleWNsb2FrLmRldi54YWJldGEudGVjaC9yZWFsbXMvYmFja29mZmljZSJ9",
+								"disabled": true
+							},
+							{
+								"key": "X-API-KEY",
+								"value": "xbk_a25oeE5JcWZoU2NiZ1ZObFpPeGFWcXBmV1Q2bk5vbWE=",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{restapiDevUrl}}/api/v1/feed/live",
+							"host": [
+								"{{restapiDevUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"feed",
+								"live"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "market pairs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "xbk_eHNnak9MbjhoOFp2Y1NWSGhnTVJhSEZ1c2tUOXIzMkM=",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{restapiDevUrl}}/api/v1/currency/pairs?source=EXTERNAL",
+							"host": [
+								"{{restapiDevUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"currency",
+								"pairs"
+							],
+							"query": [
+								{
+									"key": "source",
+									"value": "EXTERNAL"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rate inquiry",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "xbk_a25oeE5JcWZoU2NiZ1ZObFpPeGFWcXBmV1Q2bk5vbWE=",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mpDevUrl}}/api/market/v1/rate-inquiry?type=XE&pair=BTCSAR&direction=BID&amount=0.01",
+							"host": [
+								"{{mpDevUrl}}"
+							],
+							"path": [
+								"api",
+								"market",
+								"v1",
+								"rate-inquiry"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "XE"
+								},
+								{
+									"key": "pair",
+									"value": "BTCSAR"
+								},
+								{
+									"key": "direction",
+									"value": "BID"
+								},
+								{
+									"key": "amount",
+									"value": "0.01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rate inquiry external",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "xbk_a25oeE5JcWZoU2NiZ1ZObFpPeGFWcXBmV1Q2bk5vbWE=",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{mpDevUrl}}/api/market/v1/market/rates/external/BTC/SAR/REUTERS",
+							"host": [
+								"{{mpDevUrl}}"
+							],
+							"path": [
+								"api",
+								"market",
+								"v1",
+								"market",
+								"rates",
+								"external",
+								"BTC",
+								"SAR",
+								"REUTERS"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Emulator",
+			"item": [
+				{
+					"name": "Upload xml pacs.008",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!--emily-->\r\n<BizMsgEnvlp>\r\n<AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n\t<Fr>\r\n\t\t<FIId>\r\n\t\t\t<FinInstnId>\r\n\t\t\t\t<Othr> <!-- Sending Member identified with the emily Identification Code -->\r\n\t\t\t\t\t<Id>XMBER007SAFF</Id>\r\n\t\t\t\t</Othr>\r\n\t\t\t</FinInstnId>\r\n\t\t</FIId>\r\n\t</Fr>\r\n\t<To>\r\n\t\t<FIId>\r\n\t\t\t<FinInstnId>\r\n\t\t\t\t<Othr> <!-- Receiver is emily identified with the emily Identification Code  -->\r\n\t\t\t\t\t<Id>XXBTAHQRAECS</Id>\r\n\t\t\t\t</Othr>\r\n\t\t\t</FinInstnId>\r\n\t\t</FIId>\r\n\t</To>\r\n\t<BizMsgIdr>BizMsgIdr-pacs008-2024062yrc13</BizMsgIdr>  <!-- Unique identifier assigned by the sender to unambiguously identify this message. -->\r\n\r\n\t<MsgDefIdr>pacs.008.001.08</MsgDefIdr>\r\n\t<BizSvc>XCTCS</BizSvc>\r\n\t<CreDt>2025-12-22T10:35:49+01:00</CreDt> <!-- The current date -->\r\n\t<PssblDplct>false</PssblDplct>\r\n\t<Prty>NORM</Prty>\r\n</AppHdr>\r\n<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08\">\r\n\t<FIToFICstmrCdtTrf>\r\n\t\t<GrpHdr>\r\n\t\t\t<MsgId>0YVGIN1lviF5vTHjONOyEICrzp8</MsgId> <!-- Unique identifier assigned by the sender to unambiguously identify this message (Datatype: Max35Text)  -->\r\n\t\t\t<CreDtTm>2025-11-18T18:35:54.14</CreDtTm> <!-- The date of credit transfer -->\r\n\t\t\t<NbOfTxs>1</NbOfTxs>\r\n\t\t\t<SttlmInf>\r\n\t\t\t\t<SttlmMtd>CLRG</SttlmMtd>\r\n\t\t\t</SttlmInf>\r\n\t\t</GrpHdr>\r\n\t\t<CdtTrfTxInf>\r\n\t\t\t<PmtId>\r\n\t\t\t\t<InstrId>InstrId-pacs718-20241027a</InstrId>\r\n                <EndToEndId>ChCWqMKi3R0fHTZGV8KsZB7H51OSTGhdCwp</EndToEndId>\r\n\t\t\t\t<TxId>es79JmgmkajTVLuJVqVQ4vJGhWkCy0IjkyL</TxId>\r\n\t\t\t\t<UETR>505672d6-97d1-455d-aeb3-59052ebfe71c</UETR>\r\n\t\t\t</PmtId>\r\n\t\t\t<PmtTpInf>\r\n\t\t\t\t<CtgyPurp>\r\n\t\t\t\t\t<Cd>SALA</Cd>\r\n\t\t\t\t</CtgyPurp>\r\n\t\t\t</PmtTpInf>\r\n            <IntrBkSttlmAmt Ccy=\"SAR\">30</IntrBkSttlmAmt>\r\n            <IntrBkSttlmDt>2025-12-23</IntrBkSttlmDt>\r\n            <ChrgBr>DEBT</ChrgBr>\r\n\t\t\t<InstgAgt>\r\n\t\t\t\t<FinInstnId>\r\n\t\t\t\t\t<Othr>\r\n\t\t\t\t\t\t<!-- Sending Member identified with the emily Identification Code. -->\r\n\t\t\t\t\t\t<Id>XMBER007SAFF</Id>\r\n\t\t\t\t\t</Othr>\r\n\t\t\t\t</FinInstnId>\r\n\t\t\t</InstgAgt>\r\n\t\t\t<InstdAgt>\r\n\t\t\t\t<FinInstnId>\r\n\t\t\t\t\t<Othr>\r\n\t\t\t\t\t\t<!-- Receiving Member identified with the emily Identification Code. -->\r\n\t\t\t\t\t\t<Id>XMBER006SAFF</Id>\r\n\t\t\t\t\t</Othr>\r\n\t\t\t\t</FinInstnId>\r\n\t\t\t</InstdAgt>\r\n\t\t\t<UltmtDbtr>\r\n\t\t\t\t<Nm>UltmtDbtr Name</Nm>\r\n\t\t\t\t<CtryOfRes>AR</CtryOfRes>\r\n\t\t\t</UltmtDbtr>\r\n\t\t\t<Dbtr>\r\n\t\t\t\t<Nm>Debtor Name in SA</Nm>\r\n\t\t\t\t<PstlAdr>\r\n\t\t\t\t\t<AdrLine>SubDept1</AdrLine>\r\n\t\t\t\t\t<AdrLine>SubDept2</AdrLine>\r\n\t\t\t\t\t<AdrLine>SubDept3</AdrLine>\r\n\t\t\t\t</PstlAdr>\r\n\t\t\t</Dbtr>\r\n\t\t\t<DbtrAcct>\r\n\t\t\t\t<Id>\r\n\t\t\t\t\t<Othr>\r\n\t\t\t\t\t\t<Id>2898272785</Id>\r\n\t\t\t\t\t</Othr>\r\n\t\t\t\t</Id>\r\n\t\t\t\t<Ccy>SAR</Ccy>\r\n\t\t\t</DbtrAcct>\r\n\t\t\t<DbtrAgt>\r\n\t\t\t\t<FinInstnId>\r\n\t\t\t\t\t   <Nm>Debtor agent name33</Nm>\r\n                    <Othr>\r\n                        <Id>XMBER007SAFF</Id>\r\n                    </Othr>\r\n\t\t\t\t</FinInstnId>\r\n\t\t\t</DbtrAgt>\r\n\t\t\t<CdtrAgt>\r\n\t\t\t\t<FinInstnId>\r\n\t\t\t\t    <BICFI>BCRBBIBI</BICFI> \r\n\t\t\t\t\t<Nm>Creditor Agent Name</Nm>\t\t\t\t\t\r\n                </FinInstnId>\r\n\t\t\t</CdtrAgt>\r\n\t\t\t<Cdtr>\r\n\t\t\t\t<Nm>Creditor Name</Nm>\r\n\t\t\t\t<PstlAdr>\r\n\t\t\t\t\t<StrtNm>Street Name</StrtNm>\r\n\t\t\t\t\t<BldgNm>Building Number</BldgNm>\r\n\t\t\t\t\t<PstCd>Postal Code</PstCd>\r\n\t\t\t\t\t<TwnNm>Town Name</TwnNm>\r\n\t\t\t\t\t<Ctry>SA</Ctry>\r\n\t\t\t\t</PstlAdr>\r\n\t\t\t\t<Id>\r\n\t\t\t\t\t<OrgId>\r\n\t\t\t\t\t\t<LEI>HD5O21F80BF95699B348</LEI>\r\n\t\t\t\t\t</OrgId>\r\n\t\t\t\t</Id>\r\n\t\t\t</Cdtr>\r\n\t\t\t<CdtrAcct>\r\n\t\t\t\t<Id>\r\n\t\t\t\t\t<IBAN>SA4420000001234567891234</IBAN>\r\n\t\t\t\t</Id>\r\n\t\t\t</CdtrAcct>\r\n\t\t\t<InstrForCdtrAgt>\r\n\t\t\t\t<InstrInf>string</InstrInf>\r\n\t\t\t</InstrForCdtrAgt>\r\n\t\t\t<InstrForCdtrAgt>\r\n\t\t\t\t<Cd>HOLD</Cd>\r\n\t\t\t</InstrForCdtrAgt>\r\n\t\t\t<Purp>\r\n\t\t\t\t<Prtry>Proprietary purpose</Prtry>\r\n\t\t\t</Purp>\r\n\t\t\t<RmtInf>\r\n\t\t\t\t<Ustrd>Remittance information outbound pacs.008 transaction from BRAZIL to SAUDI</Ustrd>\r\n\t\t\t</RmtInf>\r\n\t\t</CdtTrfTxInf>\r\n\t</FIToFICstmrCdtTrf>\r\n</Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorDevUrl}}/admin/upload",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml pacs.008 Stage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!--emily-->\r\n<BizMsgEnvlp>\r\n<AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n\t<Fr>\r\n\t\t<FIId>\r\n\t\t\t<FinInstnId>\r\n\t\t\t\t<Othr> <!-- Sending Member identified with the emily Identification Code -->\r\n\t\t\t\t\t<Id>XMBER008BRFF</Id>\r\n\t\t\t\t</Othr>\r\n\t\t\t</FinInstnId>\r\n\t\t</FIId>\r\n\t</Fr>\r\n\t<To>\r\n\t\t<FIId>\r\n\t\t\t<FinInstnId>\r\n\t\t\t\t<Othr> <!-- Receiver is emily identified with the emily Identification Code  -->\r\n\t\t\t\t\t<Id>XXBTAHQRAECS</Id>\r\n\t\t\t\t</Othr>\r\n\t\t\t</FinInstnId>\r\n\t\t</FIId>\r\n\t</To>\r\n\t<BizMsgIdr>BizMsgIdr-pacs008-2024061yrf1</BizMsgIdr>  <!-- Unique identifier assigned by the sender to unambiguously identify this message. -->\r\n\r\n\t<MsgDefIdr>pacs.008.001.08</MsgDefIdr>\r\n\t<BizSvc>XCTCS</BizSvc>\r\n\t<CreDt>2025-11-25T10:35:49+01:00</CreDt> <!-- The current date -->\r\n\t<PssblDplct>false</PssblDplct>\r\n\t<Prty>NORM</Prty>\r\n</AppHdr>\r\n<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08\">\r\n\t<FIToFICstmrCdtTrf>\r\n\t\t<GrpHdr>\r\n\t\t\t<MsgId>0YVGIN1lviF4vTHjONOyEICrzp993</MsgId> <!-- Unique identifier assigned by the sender to unambiguously identify this message (Datatype: Max35Text)  -->\r\n\t\t\t<CreDtTm>2025-11-25T18:35:54.14</CreDtTm> <!-- The date of credit transfer -->\r\n\t\t\t<NbOfTxs>1</NbOfTxs>\r\n\t\t\t<SttlmInf>\r\n\t\t\t\t<SttlmMtd>CLRG</SttlmMtd>\r\n\t\t\t</SttlmInf>\r\n\t\t</GrpHdr>\r\n\t\t<CdtTrfTxInf>\r\n\t\t\t<PmtId>\r\n\t\t\t\t<InstrId>InstrId-pacs718-20241025a</InstrId>\r\n                <EndToEndId>ChCWqMKi3R0fHTZGV8KsZB2H51OSTGhdCwp</EndToEndId>\r\n\t\t\t\t<TxId>esO9JmgmkajTVLuJVqVQ4vJGhWkCy0IjkyL</TxId>\r\n\t\t\t\t<UETR>505672d6-93d1-455d-aeb3-59052ebfe71c</UETR>\r\n\t\t\t</PmtId>\r\n\t\t\t<PmtTpInf>\r\n\t\t\t\t<CtgyPurp>\r\n\t\t\t\t\t<Cd>SALA</Cd>\r\n\t\t\t\t</CtgyPurp>\r\n                <SvcLvl>\r\n                    <Cd>URGP</Cd>\r\n                </SvcLvl>\r\n\t\t\t</PmtTpInf>\r\n            <IntrBkSttlmAmt Ccy=\"BRL\">15</IntrBkSttlmAmt>\r\n            <IntrBkSttlmDt>2025-12-08</IntrBkSttlmDt>\r\n            <ChrgBr>DEBT</ChrgBr>\r\n\t\t\t<InstgAgt>\r\n\t\t\t\t<FinInstnId>\r\n\t\t\t\t\t<Othr>\r\n\t\t\t\t\t\t<!-- Sending Member identified with the emily Identification Code. -->\r\n\t\t\t\t\t\t<Id>XMBER007BRFF</Id>\r\n\t\t\t\t\t</Othr>\r\n\t\t\t\t</FinInstnId>\r\n\t\t\t</InstgAgt>\r\n\t\t\t<InstdAgt>\r\n\t\t\t\t<FinInstnId>\r\n\t\t\t\t\t<Othr>\r\n\t\t\t\t\t\t<!-- Receiving Member identified with the emily Identification Code. -->\r\n\t\t\t\t\t\t<Id>XMBER008BRFF</Id>\r\n\t\t\t\t\t</Othr>\r\n\t\t\t\t</FinInstnId>\r\n\t\t\t</InstdAgt>\r\n\t\t\t<UltmtDbtr>\r\n\t\t\t\t<Nm>UltmtDbtr Name</Nm>\r\n\t\t\t\t<CtryOfRes>AR</CtryOfRes>\r\n\t\t\t</UltmtDbtr>\r\n\t\t\t<Dbtr>\r\n\t\t\t\t<Nm>Debtor Name in SA</Nm>\r\n\t\t\t\t<PstlAdr>\r\n\t\t\t\t\t<AdrLine>SubDept1</AdrLine>\r\n\t\t\t\t\t<AdrLine>SubDept2</AdrLine>\r\n\t\t\t\t\t<AdrLine>SubDept3</AdrLine>\r\n\t\t\t\t</PstlAdr>\r\n\t\t\t</Dbtr>\r\n\t\t\t<DbtrAcct>\r\n\t\t\t\t<Id>\r\n\t\t\t\t\t<Othr>\r\n\t\t\t\t\t\t<Id>2898272785</Id>\r\n\t\t\t\t\t</Othr>\r\n\t\t\t\t</Id>\r\n\t\t\t\t<Ccy>SAR</Ccy>\r\n\t\t\t</DbtrAcct>\r\n\t\t\t<DbtrAgt>\r\n\t\t\t\t<FinInstnId>\r\n\t\t\t\t\t   <Nm>Debtor agent name33</Nm>\r\n                    <Othr>\r\n                        <Id>XMBER001BRFF</Id>\r\n                    </Othr>\r\n\t\t\t\t</FinInstnId>\r\n\t\t\t</DbtrAgt>\r\n\t\t\t<CdtrAgt>\r\n\t\t\t\t<FinInstnId>\r\n\t\t\t\t    <BICFI>BCRBBIBI</BICFI> \r\n\t\t\t\t\t<Nm>Creditor Agent Name</Nm>\t\t\t\t\t\r\n                </FinInstnId>\r\n\t\t\t</CdtrAgt>\r\n\t\t\t<Cdtr>\r\n\t\t\t\t<Nm>Creditor Name</Nm>\r\n\t\t\t\t<PstlAdr>\r\n\t\t\t\t\t<StrtNm>Street Name</StrtNm>\r\n\t\t\t\t\t<BldgNm>Building Number</BldgNm>\r\n\t\t\t\t\t<PstCd>Postal Code</PstCd>\r\n\t\t\t\t\t<TwnNm>Town Name</TwnNm>\r\n\t\t\t\t\t<Ctry>SA</Ctry>\r\n\t\t\t\t</PstlAdr>\r\n\t\t\t\t<Id>\r\n\t\t\t\t\t<OrgId>\r\n\t\t\t\t\t\t<LEI>HD5O21F80BF95699B348</LEI>\r\n\t\t\t\t\t</OrgId>\r\n\t\t\t\t</Id>\r\n\t\t\t</Cdtr>\r\n\t\t\t<CdtrAcct>\r\n\t\t\t\t<Id>\r\n\t\t\t\t\t<IBAN>SA4420000001234567891234</IBAN>\r\n\t\t\t\t</Id>\r\n\t\t\t</CdtrAcct>\r\n\t\t\t<InstrForCdtrAgt>\r\n\t\t\t\t<InstrInf>string</InstrInf>\r\n\t\t\t</InstrForCdtrAgt>\r\n\t\t\t<InstrForCdtrAgt>\r\n\t\t\t\t<Cd>HOLD</Cd>\r\n\t\t\t</InstrForCdtrAgt>\r\n\t\t\t<Purp>\r\n\t\t\t\t<Prtry>Proprietary purpose</Prtry>\r\n\t\t\t</Purp>\r\n\t\t\t<RmtInf>\r\n\t\t\t\t<Ustrd>Remittance information outbound pacs.008 transaction from BRAZIL to SAUDI</Ustrd>\r\n\t\t\t</RmtInf>\r\n\t\t</CdtTrfTxInf>\r\n\t</FIToFICstmrCdtTrf>\r\n</Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorStageUrl}}/admin/upload",
+							"host": [
+								"{{emulatorStageUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml pacs.008-stp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<BizMsgEnvlp>\r\n<AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n    <Fr>\r\n        <FIId>\r\n            <FinInstnId>\r\n                <Othr>\r\n                    <Id>XMBER007SAFF</Id>\r\n                </Othr>\r\n            </FinInstnId>\r\n        </FIId>\r\n    </Fr>\r\n    <To>\r\n        <FIId>\r\n            <FinInstnId>\r\n                <Othr>\r\n                    <Id>XXBTAHQRAECS</Id>\r\n                </Othr>\r\n            </FinInstnId>\r\n        </FIId>\r\n    </To>\r\n    <BizMsgIdr>biz-b7ekRrfzcN9</BizMsgIdr>\r\n    <MsgDefIdr>pacs.008.001.08 STP</MsgDefIdr>\r\n    <BizSvc>XCTCS</BizSvc>\r\n    <CreDt>2025-11-25T10:38:26.904396989+00:00</CreDt>\r\n    <PssblDplct>false</PssblDplct>\r\n    <Prty>NORM</Prty>\r\n</AppHdr>\r\n<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.008.001.08\">\r\n    <FIToFICstmrCdtTrf>\r\n        <GrpHdr>\r\n            <MsgId>M7Mo8tUmsxpGfD3</MsgId>\r\n            <CreDtTm>2025-11-24T10:38:25.924+00:00</CreDtTm>\r\n            <NbOfTxs>1</NbOfTxs>\r\n            <SttlmInf>\r\n                <SttlmMtd>CLRG</SttlmMtd>\r\n            </SttlmInf>\r\n        </GrpHdr>\r\n        <CdtTrfTxInf>\r\n            <PmtId>\r\n                <EndToEndId>sdfdsfasdf</EndToEndId>\r\n                <TxId>adf</TxId>\r\n                <ClrSysRef>XCTR2025300458158183544</ClrSysRef>\r\n            </PmtId>\r\n            <PmtTpInf></PmtTpInf>\r\n            <IntrBkSttlmAmt Ccy=\"SAR\">2000</IntrBkSttlmAmt>\r\n            <IntrBkSttlmDt>2025-11-28</IntrBkSttlmDt>\r\n            <ChrgBr>DEBT</ChrgBr>\r\n            <InstgAgt>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XMBER007SAFF</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </InstgAgt>\r\n            <InstdAgt>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XMBER006SAFF</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </InstdAgt>\r\n            <Dbtr>\r\n                <Nm>Creditor name</Nm>\r\n                <PstlAdr>\r\n                    <Ctry>AT</Ctry>\r\n                </PstlAdr>\r\n            </Dbtr>\r\n            <DbtrAcct>\r\n                <Id>\r\n                    <IBAN>CD111111111111111111111111111111</IBAN>\r\n                </Id>\r\n            </DbtrAcct>\r\n            <DbtrAgt>\r\n                <FinInstnId>\r\n                    <BICFI>XDCCFDSR</BICFI>\r\n                </FinInstnId>\r\n            </DbtrAgt>\r\n            <CdtrAgt>\r\n                <FinInstnId>\r\n                    <BICFI>XDCCFDSS</BICFI>\r\n                </FinInstnId>\r\n            </CdtrAgt>\r\n            <Cdtr>\r\n                <Nm>Debtor name</Nm>\r\n                <PstlAdr>\r\n                    <Ctry>AR</Ctry>\r\n                </PstlAdr>\r\n            </Cdtr>\r\n            <CdtrAcct>\r\n                <Id>\r\n                    <IBAN>CD111111111111111111111111111111</IBAN>\r\n                </Id>\r\n            </CdtrAcct>\r\n        </CdtTrfTxInf>\r\n    </FIToFICstmrCdtTrf>\r\n</Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorDevUrl}}/admin/upload",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml pacs.009",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version='1.0' encoding='utf-8'?>\r\n<BizMsgEnvlp>\r\n  <AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n    <Fr>\r\n      <FIId>\r\n        <FinInstnId>\r\n          <Othr>\r\n            <Id>XMBER007SAFF</Id>\r\n          </Othr>\r\n        </FinInstnId>\r\n      </FIId>\r\n    </Fr>\r\n    <To>\r\n      <FIId>\r\n        <FinInstnId>\r\n          <Othr>\r\n            <Id>XXBTAHQRAECS</Id>\r\n          </Othr>\r\n        </FinInstnId>\r\n      </FIId>\r\n    </To>\r\n    <BizMsgIdr>BizMsgIdr-tj96ho-20250728az16</BizMsgIdr>\r\n    <MsgDefIdr>pacs.009.001.08</MsgDefIdr>\r\n    <BizSvc>XCTCS</BizSvc>\r\n    <CreDt>2025-11-07T15:39:52.497930</CreDt>\r\n    <PssblDplct>false</PssblDplct>\r\n    <Prty>NORM</Prty>\r\n  </AppHdr>\r\n  <Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.009.001.08\">\r\n    <FICdtTrf>\r\n      <GrpHdr>\r\n        <MsgId>pacs009MsgId12345254</MsgId>\r\n        <CreDtTm>2025-11-07T15:39:52.497930</CreDtTm>\r\n        <NbOfTxs>1</NbOfTxs>\r\n        <SttlmInf>\r\n          <SttlmMtd>CLRG</SttlmMtd>\r\n        </SttlmInf>\r\n      </GrpHdr>\r\n      <CdtTrfTxInf>\r\n        <PmtId>\r\n          <InstrId>InstrId-pacs009-20241025b</InstrId>\r\n          <EndToEndId>Nzex24tMf5qOnaa2vJ3Y5A1zGH9rMBtYM64</EndToEndId>\r\n          <TxId>WC5bnhQyYQcJxOQGCBCi7vqZwvm5OpII4nw</TxId>\r\n          <UETR>b256a61b-323b-41a5-ab6f-86ceec3aaffb</UETR>\r\n        </PmtId>\r\n        <PmtTpInf>\r\n          <CtgyPurp>\r\n            <Cd>DNS</Cd>\r\n          </CtgyPurp>\r\n        </PmtTpInf>\r\n        <IntrBkSttlmAmt Ccy=\"SAR\">12</IntrBkSttlmAmt>\r\n        <IntrBkSttlmDt>2025-12-02</IntrBkSttlmDt>\r\n        <InstgAgt>\r\n          <FinInstnId>\r\n            <Othr>\r\n              <Id>XMBER007SAFF</Id>\r\n            </Othr>\r\n          </FinInstnId>\r\n        </InstgAgt>\r\n        <InstdAgt>\r\n          <FinInstnId>\r\n            <Othr>\r\n              <Id>XMBER006SAFF</Id>\r\n            </Othr>\r\n          </FinInstnId>\r\n        </InstdAgt>\r\n        <Dbtr>\r\n          <FinInstnId>\r\n            <Nm>Debtor Bank in BRAZIL</Nm>\r\n            <Othr>\r\n              <Id>XMBER007SAFF</Id>\r\n            </Othr>\r\n          </FinInstnId>\r\n        </Dbtr>\r\n        <DbtrAcct>\r\n          <Id>\r\n            <Othr>\r\n              <Id>FR81Y1U1GCE14AMFX65CEHSICIJ</Id>\r\n            </Othr>\r\n          </Id>\r\n        </DbtrAcct>\r\n        <DbtrAgt>\r\n          <FinInstnId>\r\n            <Othr>\r\n              <Id>XMBER007SAFF</Id>\r\n            </Othr>\r\n          </FinInstnId>\r\n        </DbtrAgt>\r\n        <CdtrAgt>\r\n          <FinInstnId>\r\n            <Othr>\r\n              <Id>XMBER0006SAFF</Id>\r\n            </Othr>\r\n          </FinInstnId>\r\n        </CdtrAgt>\r\n        <Cdtr>\r\n          <FinInstnId>\r\n            <Nm>Creditor Name in SAUDI</Nm>\r\n            <Othr>\r\n              <Id>XMBER011BRFF</Id>\r\n            </Othr>\r\n          </FinInstnId>\r\n        </Cdtr>\r\n        <CdtrAcct>\r\n          <Id>\r\n            <IBAN>GB717LEPUQA7ALHQ1EQ7CN</IBAN>\r\n          </Id>\r\n        </CdtrAcct>\r\n        <Purp>\r\n          <Cd>CBLK</Cd>\r\n        </Purp>\r\n        <RmtInf>\r\n          <Ustrd>HUO, m1PuI.dxokHtduE,VA3ZSpX8CRWGXOdu/KS72v</Ustrd>\r\n        </RmtInf>\r\n      </CdtTrfTxInf>\r\n    </FICdtTrf>\r\n  </Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorDevUrl}}/admin/upload",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml pacs.004",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<BizMsgEnvlp>\r\n    <AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n        <Fr>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XMBER006SAFF</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </Fr>\r\n        <To>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XXBTAHQRAECS</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </To>\r\n        <BizMsgIdr>biz-tln1bNb3KG</BizMsgIdr>\r\n        <MsgDefIdr>pacs.004.001.09</MsgDefIdr>\r\n        <BizSvc>XCTCS</BizSvc>\r\n        <CreDt>2025-12-12T13:05:53.572346911+00:00</CreDt>\r\n        <PssblDplct>false</PssblDplct>\r\n        <Prty>NORM</Prty>\r\n    </AppHdr>\r\n    <Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.004.001.09\">\r\n        <PmtRtr>\r\n            <GrpHdr>\r\n                <MsgId>ur5xXbBXuAr2VMmdLj</MsgId>\r\n                <CreDtTm>2025-12-12T13:05:53.572377889+00:00</CreDtTm>\r\n                <NbOfTxs>1</NbOfTxs>\r\n                <SttlmInf>\r\n                    <SttlmMtd>INGA</SttlmMtd>\r\n                </SttlmInf>\r\n            </GrpHdr>\r\n            <TxInf>\r\n                <OrgnlGrpInf>\r\n                    <OrgnlMsgId>9FB0voa23yaNmhG</OrgnlMsgId>\r\n                    <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>\r\n                    <OrgnlCreDtTm>2025-12-12T13:04:15.905+00:00</OrgnlCreDtTm>\r\n                </OrgnlGrpInf>\r\n                <OrgnlInstrId>InstrId-pacs718-20241027a</OrgnlInstrId>\r\n                <OrgnlEndToEndId>ChCWqMKi3R0fHTZGV8KsZB7H51OSTGhdCwp</OrgnlEndToEndId>\r\n                <OrgnlTxId>es79JmgmkajTVLuJVqVQ4vJGhWkCy0IjkyL</OrgnlTxId>\r\n                <OrgnlUETR>505672d6-97d1-455d-aeb3-59052ebfe71c</OrgnlUETR>\r\n                <OrgnlClrSysRef>XCTR2025346297550542813</OrgnlClrSysRef>\r\n                <RtrdIntrBkSttlmAmt Ccy=\"SAR\">30.00000</RtrdIntrBkSttlmAmt>\r\n                <IntrBkSttlmDt>2025-12-12</IntrBkSttlmDt>\r\n                <InstgAgt>\r\n                    <FinInstnId>\r\n                        <Othr>\r\n                            <Id>XMBER006SAFF</Id>\r\n                        </Othr>\r\n                    </FinInstnId>\r\n                </InstgAgt>\r\n                <InstdAgt>\r\n                    <FinInstnId>\r\n                        <Othr>\r\n                            <Id>XMBER007SAFF</Id>\r\n                        </Othr>\r\n                    </FinInstnId>\r\n                </InstdAgt>\r\n                <RtrChain>\r\n                    <Dbtr>\r\n                        <Agt>\r\n                            <FinInstnId>\r\n                                <Othr>\r\n                                    <Id>XMBER007SAFF</Id>\r\n                                </Othr>\r\n                            </FinInstnId>\r\n                        </Agt>\r\n                    </Dbtr>\r\n                    <DbtrAgt>\r\n                        <FinInstnId>\r\n                            <BICFI>BCRBBIBI</BICFI>\r\n                            <Nm>Creditor Agent Name</Nm>\r\n                        </FinInstnId>\r\n                    </DbtrAgt>\r\n                    <CdtrAgt>\r\n                        <FinInstnId>\r\n                            <Nm>Debtor agent name33</Nm>\r\n                            <Othr>\r\n                                <Id>XMBER007SAFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </CdtrAgt>\r\n                    <Cdtr>\r\n                        <Agt>\r\n                            <FinInstnId>\r\n                                <Othr>\r\n                                    <Id>XMBER006SAFF</Id>\r\n                                </Othr>\r\n                            </FinInstnId>\r\n                        </Agt>\r\n                    </Cdtr>\r\n                </RtrChain>\r\n                <RtrRsnInf>\r\n                    <Rsn>\r\n                        <Cd>AM03</Cd>\r\n                    </Rsn>\r\n                </RtrRsnInf>\r\n                <OrgnlTxRef>\r\n                    <PmtTpInf>\r\n                        <CtgyPurp>\r\n                            <Cd>SALA</Cd>\r\n                        </CtgyPurp>\r\n                    </PmtTpInf>\r\n                    <Dbtr>\r\n                        <Agt>\r\n                            <FinInstnId>\r\n                                <Nm>Debtor agent name33</Nm>\r\n                                <Othr>\r\n                                    <Id>XMBER007SAFF</Id>\r\n                                </Othr>\r\n                            </FinInstnId>\r\n                        </Agt>\r\n                    </Dbtr>\r\n                    <CdtrAgtAcct>\r\n                        <Id>\r\n                            <IBAN>SA4420000001234567891234</IBAN>\r\n                        </Id>\r\n                    </CdtrAgtAcct>\r\n                    <Cdtr>\r\n                        <Agt>\r\n                            <FinInstnId>\r\n                                <BICFI>BCRBBIBI</BICFI>\r\n                                <Nm>Creditor Agent Name</Nm>\r\n                            </FinInstnId>\r\n                        </Agt>\r\n                    </Cdtr>\r\n                    <CdtrAcct>\r\n                        <Id>\r\n                            <Othr>\r\n                                <Id>2898272785</Id>\r\n                            </Othr>\r\n                        </Id>\r\n                        <Ccy>SAR</Ccy>\r\n                    </CdtrAcct>\r\n                </OrgnlTxRef>\r\n            </TxInf>\r\n        </PmtRtr>\r\n    </Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorDevUrl}}/admin/upload",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml pacs.004 Stage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<BizMsgEnvlp>\r\n    <AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n        <Fr>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XMBER008BRFF</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </Fr>\r\n        <To>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XXBTAHQRAECS</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </To>\r\n        <BizMsgIdr>biz-0xYXfbnkzz</BizMsgIdr>\r\n        <MsgDefIdr>pacs.004.001.09</MsgDefIdr>\r\n        <BizSvc>XCTCS</BizSvc>\r\n        <CreDt>2025-11-14T13:20:45.631040267+00:00</CreDt>\r\n        <PssblDplct>false</PssblDplct>\r\n        <Prty>NORM</Prty>\r\n    </AppHdr>\r\n    <Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pacs.004.001.09\">\r\n        <PmtRtr>\r\n            <GrpHdr>\r\n                <MsgId>ZHkXTYNnImPewPePFb</MsgId>\r\n                <CreDtTm>2025-11-14T13:20:45.631071276+00:00</CreDtTm>\r\n                <NbOfTxs>1</NbOfTxs>\r\n                <SttlmInf>\r\n                    <SttlmMtd>INGA</SttlmMtd>\r\n                </SttlmInf>\r\n            </GrpHdr>\r\n            <TxInf>\r\n                <OrgnlGrpInf>\r\n                    <OrgnlMsgId>gm1ToXjyOu8SOJM</OrgnlMsgId>\r\n                    <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>\r\n                    <OrgnlCreDtTm>2025-11-14T13:20:23.776+00:00</OrgnlCreDtTm>\r\n                </OrgnlGrpInf>\r\n                <OrgnlInstrId>InstrId-pacs718-20241025a</OrgnlInstrId>\r\n                <OrgnlEndToEndId>ChCWqMKi3R0fHTZGV8KsZB2H51OSTGhdCwp</OrgnlEndToEndId>\r\n                <OrgnlTxId>esO9JmgmkajTVLuJVqVQ4vJGhWkCy0IjkyL</OrgnlTxId>\r\n                <OrgnlUETR>505672d6-93d1-455d-aeb3-59052ebfe71c</OrgnlUETR>\r\n                <OrgnlClrSysRef>XCTR2025318950867033928</OrgnlClrSysRef>\r\n                <RtrdIntrBkSttlmAmt Ccy=\"SAR\">10.00000</RtrdIntrBkSttlmAmt>\r\n                <IntrBkSttlmDt>2025-11-14</IntrBkSttlmDt>\r\n                <InstgAgt>\r\n                    <FinInstnId>\r\n                        <Othr>\r\n                            <Id>XMBER008BRFF</Id>\r\n                        </Othr>\r\n                    </FinInstnId>\r\n                </InstgAgt>\r\n                <InstdAgt>\r\n                    <FinInstnId>\r\n                        <Othr>\r\n                            <Id>XMBER007BRFF</Id>\r\n                        </Othr>\r\n                    </FinInstnId>\r\n                </InstdAgt>\r\n                <RtrChain>\r\n                    <Dbtr>\r\n                        <Agt>\r\n                            <FinInstnId>\r\n                                <Othr>\r\n                                    <Id>XMBER007BRFF</Id>\r\n                                </Othr>\r\n                            </FinInstnId>\r\n                        </Agt>\r\n                    </Dbtr>\r\n                    <DbtrAgt>\r\n                        <FinInstnId>\r\n                            <BICFI>BCRBBIBI</BICFI>\r\n                            <Nm>Creditor Agent Name</Nm>\r\n                        </FinInstnId>\r\n                    </DbtrAgt>\r\n                    <CdtrAgt>\r\n                        <FinInstnId>\r\n                            <Nm>Debtor agent name33</Nm>\r\n                            <Othr>\r\n                                <Id>XMBER001BRFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </CdtrAgt>\r\n                    <Cdtr>\r\n                        <Agt>\r\n                            <FinInstnId>\r\n                                <Othr>\r\n                                    <Id>XMBER008BRFF</Id>\r\n                                </Othr>\r\n                            </FinInstnId>\r\n                        </Agt>\r\n                    </Cdtr>\r\n                </RtrChain>\r\n                <RtrRsnInf>\r\n                    <Rsn>\r\n                        <Cd>AM03</Cd>\r\n                    </Rsn>\r\n                </RtrRsnInf>\r\n                <OrgnlTxRef>\r\n                    <PmtTpInf>\r\n                        <CtgyPurp>\r\n                            <Cd>SALA</Cd>\r\n                        </CtgyPurp>\r\n                    </PmtTpInf>\r\n                    <Dbtr>\r\n                        <Agt>\r\n                            <FinInstnId>\r\n                                <Nm>Debtor agent name33</Nm>\r\n                                <Othr>\r\n                                    <Id>XMBER001BRFF</Id>\r\n                                </Othr>\r\n                            </FinInstnId>\r\n                        </Agt>\r\n                    </Dbtr>\r\n                    <CdtrAgtAcct>\r\n                        <Id>\r\n                            <IBAN>SA4420000001234567891234</IBAN>\r\n                        </Id>\r\n                    </CdtrAgtAcct>\r\n                    <Cdtr>\r\n                        <Agt>\r\n                            <FinInstnId>\r\n                                <BICFI>BCRBBIBI</BICFI>\r\n                                <Nm>Creditor Agent Name</Nm>\r\n                            </FinInstnId>\r\n                        </Agt>\r\n                    </Cdtr>\r\n                    <CdtrAcct>\r\n                        <Id>\r\n                            <Othr>\r\n                                <Id>2898272785</Id>\r\n                            </Othr>\r\n                        </Id>\r\n                        <Ccy>SAR</Ccy>\r\n                    </CdtrAcct>\r\n                </OrgnlTxRef>\r\n            </TxInf>\r\n        </PmtRtr>\r\n    </Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorStageUrl}}/admin/upload",
+							"host": [
+								"{{emulatorStageUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml camt.056 dev",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<BizMsgEnvlp>\r\n    <AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n        <Fr>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XMBER007SAFF</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </Fr>\r\n        <To>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XXBTAHQRAECS</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </To>\r\n        <BizMsgIdr>biz-6M0tbmlceo</BizMsgIdr>\r\n        <MsgDefIdr>camt.056.001.08</MsgDefIdr>\r\n        <BizSvc>XCTCS</BizSvc>\r\n        <CreDt>2025-12-12T13:05:07.673980954+00:00</CreDt>\r\n        <PssblDplct>false</PssblDplct>\r\n        <Prty>NORM</Prty>\r\n    </AppHdr>\r\n    <Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:camt.056.001.08\">\r\n        <FIToFIPmtCxlReq>\r\n            <Assgnmt>\r\n                <Id>iX2HzwtbV1</Id>\r\n                <Assgnr>\r\n                    <Agt>\r\n                        <FinInstnId>\r\n                            <Othr>\r\n                                <Id>XMBER007SAFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </Agt>\r\n                </Assgnr>\r\n                <Assgne>\r\n                    <Agt>\r\n                        <FinInstnId>\r\n                            <Othr>\r\n                                <Id>XMBER006SAFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </Agt>\r\n                </Assgne>\r\n                <CreDtTm>2025-12-12T13:05:07.674019255+00:00</CreDtTm>\r\n            </Assgnmt>\r\n            <Undrlyg>\r\n                <TxInf>\r\n                    <CxlId>gNwCI8vmUL</CxlId>\r\n                    <OrgnlGrpInf>\r\n                        <OrgnlMsgId>3N1G3zwZrhZQTlUXwJZnDWZA5mU8JlfFaXX</OrgnlMsgId>\r\n                        <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>\r\n                        <OrgnlCreDtTm>2025-12-12T13:04:14.246519901+00:00</OrgnlCreDtTm>\r\n                    </OrgnlGrpInf>\r\n                    <OrgnlEndToEndId>ChCWqMKi3R0fHTZGV8KsZB7H51OSTGhdCwp</OrgnlEndToEndId>\r\n                    <OrgnlTxId>es79JmgmkajTVLuJVqVQ4vJGhWkCy0IjkyL</OrgnlTxId>\r\n                    <OrgnlUETR>505672d6-97d1-455d-aeb3-59052ebfe71c</OrgnlUETR>\r\n                    <OrgnlClrSysRef>XCTR2025346297550542813</OrgnlClrSysRef>\r\n                    <CxlRsnInf>\r\n                        <Rsn>\r\n                            <Cd>CUST</Cd>\r\n                        </Rsn>\r\n                        <AddtlInf>Some description</AddtlInf>\r\n                    </CxlRsnInf>\r\n                </TxInf>\r\n            </Undrlyg>\r\n        </FIToFIPmtCxlReq>\r\n    </Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorDevUrl}}/admin/upload",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml camt.056 Stage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<BizMsgEnvlp>\r\n    <AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n        <Fr>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XMBER007BRFF</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </Fr>\r\n        <To>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XXBTAHQRAECS</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </To>\r\n        <BizMsgIdr>biz-D52DnFvSJD3</BizMsgIdr>\r\n        <MsgDefIdr>camt.056.001.08</MsgDefIdr>\r\n        <BizSvc>XCTCS</BizSvc>\r\n        <CreDt>2025-11-11T08:38:56.43119024+00:00</CreDt>\r\n        <PssblDplct>false</PssblDplct>\r\n        <Prty>NORM</Prty>\r\n    </AppHdr>\r\n    <Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:camt.056.001.08\">\r\n        <FIToFIPmtCxlReq>\r\n            <Assgnmt>\r\n                <Id>Bg87kdv2c33</Id>\r\n                <Assgnr>\r\n                    <Agt>\r\n                        <FinInstnId>\r\n                            <Othr>\r\n                                <Id>XMBER007BRFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </Agt>\r\n                </Assgnr>\r\n                <Assgne>\r\n                    <Agt>\r\n                        <FinInstnId>\r\n                            <Othr>\r\n                                <Id>XMBER008BRFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </Agt>\r\n                </Assgne>\r\n                <CreDtTm>2025-11-11T08:38:56.431299463+00:00</CreDtTm>\r\n            </Assgnmt>\r\n            <Undrlyg>\r\n                <TxInf>\r\n                    <CxlId>ReDc1aSDjw</CxlId>\r\n                    <OrgnlGrpInf>\r\n                        <OrgnlMsgId>0YVGIN1lviF4vTHjONOyEICrzp9</OrgnlMsgId>\r\n                        <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>\r\n                        <OrgnlCreDtTm>2025-11-11T08:38:29.031844398+00:00</OrgnlCreDtTm>\r\n                    </OrgnlGrpInf>\r\n                    <OrgnlEndToEndId>ChCWqMKi3R0fHTZGV8KsZB2H51OSTGhdCwp</OrgnlEndToEndId>\r\n                    <OrgnlTxId>esO9JmgmkajTVLuJVqVQ4vJGhWkCy0IjkyL</OrgnlTxId>\r\n                    <OrgnlUETR>505672d6-93d1-455d-aeb3-59052ebfe71c</OrgnlUETR>\r\n                    <OrgnlClrSysRef>XCTR2025315622400808307</OrgnlClrSysRef>\r\n                    <CxlRsnInf>\r\n                        <Rsn>\r\n                            <Cd>CUST</Cd>\r\n                        </Rsn>\r\n                        <AddtlInf>Some description</AddtlInf>\r\n                    </CxlRsnInf>\r\n                </TxInf>\r\n            </Undrlyg>\r\n        </FIToFIPmtCxlReq>\r\n    </Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorStageUrl}}/admin/upload",
+							"host": [
+								"{{emulatorStageUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml camt.029 dev",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<BizMsgEnvlp>\r\n    <AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n        <Fr>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XMBER006SAFF</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </Fr>\r\n        <To>\r\n            <FIId>\r\n                <FinInstnId>\r\n                    <Othr>\r\n                        <Id>XXBTAHQRAECS</Id>\r\n                    </Othr>\r\n                </FinInstnId>\r\n            </FIId>\r\n        </To>\r\n        <BizMsgIdr>biz-kWLeulauod7</BizMsgIdr>\r\n        <MsgDefIdr>camt.029.001.09</MsgDefIdr>\r\n        <BizSvc>XCTCS</BizSvc>\r\n        <CreDt>2025-11-17T15:09:33.837927577+00:00</CreDt>\r\n        <PssblDplct>false</PssblDplct>\r\n        <Prty>NORM</Prty>\r\n    </AppHdr>\r\n    <Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:camt.029.001.09\">\r\n        <RsltnOfInvstgtn>\r\n            <Assgnmt>\r\n                <Id>2yOtVOfTom</Id>\r\n                <Assgnr>\r\n                    <Agt>\r\n                        <FinInstnId>\r\n                            <Othr>\r\n                                <Id>XMBER006SAFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </Agt>\r\n                </Assgnr>\r\n                <Assgne>\r\n                    <Agt>\r\n                        <FinInstnId>\r\n                            <Othr>\r\n                                <Id>XMBER007SAFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </Agt>\r\n                </Assgne>\r\n                <CreDtTm>2025-12-11T15:41:10.721904785+00:00</CreDtTm>\r\n            </Assgnmt>\r\n            <Sts>\r\n                <Conf>RJCR</Conf>\r\n            </Sts>\r\n            <CxlDtls>\r\n                <TxInfAndSts>\r\n                <CxlStsId>SzsfEyeALc</CxlStsId>\r\n                <OrgnlGrpInf>\r\n                        <OrgnlMsgId>ilb9N1RaVvv3g3t</OrgnlMsgId>\r\n                        <OrgnlMsgNmId>pacs.008.001.08</OrgnlMsgNmId>\r\n                        <OrgnlCreDtTm>2025-12-11T15:40:28.329+00:00</OrgnlCreDtTm>\r\n                    </OrgnlGrpInf>\r\n                    <OrgnlInstrId>InstrId-pacs718-20241027a</OrgnlInstrId>\r\n                    <OrgnlEndToEndId>ChCWqMKi3R0fHTZGV8KsZB7H51OSTGhdCwp</OrgnlEndToEndId>\r\n                    <OrgnlTxId>es79JmgmkajTVLuJVqVQ4vJGhWkCy0IjkyL</OrgnlTxId>\r\n                    <OrgnlClrSysRef>XCTR2025345063576202943</OrgnlClrSysRef>\r\n                    <OrgnlUETR>505672d6-97d1-455d-aeb3-59052ebfe71c</OrgnlUETR>\r\n                <TxCxlSts>RJCR</TxCxlSts>\r\n                <CxlStsRsnInf>\r\n                    <Orgtr>\r\n                        <Id>\r\n                            <OrgId>\r\n                                <Othr>\r\n                                    <Id>XMBER008SAFF</Id>\r\n                                </Othr>\r\n                            </OrgId>\r\n                        </Id>\r\n                    </Orgtr>\r\n                    <Rsn>\r\n                        <Cd>ARDT</Cd>\r\n                    </Rsn>\r\n                    <AddtlInf>Payment was already returned 2 days ago</AddtlInf>\r\n                </CxlStsRsnInf>\r\n                <OrgnlIntrBkSttlmAmt Ccy=\"SAR\">30.00</OrgnlIntrBkSttlmAmt>\r\n                <OrgnlIntrBkSttlmDt>2025-12-11</OrgnlIntrBkSttlmDt>\r\n                <OrgnlTxRef>\r\n                    <IntrBkSttlmAmt Ccy=\"SAR\">30.00</IntrBkSttlmAmt>\r\n                    <IntrBkSttlmDt>2025-12-11</IntrBkSttlmDt>\r\n                    <RmtInf>\r\n                        <Ustrd>Remittance information outbound pacs.008 transaction from BRAZIL to SAUDI</Ustrd>\r\n                    </RmtInf>\r\n                    <Dbtr>\r\n                        <Pty>\r\n                            <Nm>Debtor Name in BRAZIL</Nm>\r\n                            <PstlAdr>\r\n                                <SubDept>SubDept</SubDept>\r\n                                <Room>Room</Room>\r\n                                <PstCd>Postal Code</PstCd>\r\n                                <TwnNm>Town Name</TwnNm>\r\n                                <TwnLctnNm>Town Location Name</TwnLctnNm>\r\n                                <CtrySubDvsn>Country Subdivision</CtrySubDvsn>\r\n                                <Ctry>BR</Ctry>\r\n                            </PstlAdr>\r\n                        </Pty>\r\n                    </Dbtr>\r\n                    <DbtrAcct>\r\n                        <Id>\r\n                            <Othr>\r\n                                <Id>2898272785</Id>\r\n                            </Othr>\r\n                        </Id>\r\n                        <Ccy>BRL</Ccy>\r\n                    </DbtrAcct>\r\n                    <DbtrAgt>\r\n                        <FinInstnId>\r\n                            <LEI>505V5G962401FIZ0TG63</LEI>\r\n                            <Nm>Debtor Agent Name</Nm>\r\n                            <Othr>\r\n                                <Id>XMBER007SAFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </DbtrAgt>\r\n                    <CdtrAgt>\r\n                        <FinInstnId>\r\n                            <Nm>Creditor Agent Name</Nm>\r\n                            <Othr>\r\n                                <Id>XMBER008SAFF</Id>\r\n                            </Othr>\r\n                        </FinInstnId>\r\n                    </CdtrAgt>\r\n                    <Cdtr>\r\n                        <Pty>\r\n                            <Nm>Creditor Name</Nm>\r\n                            <PstlAdr>\r\n                                <StrtNm>Street Name</StrtNm>\r\n                                <BldgNm>Building Number</BldgNm>\r\n                                <PstCd>Postal Code</PstCd>\r\n                                <TwnNm>Town Name</TwnNm>\r\n                                <Ctry>SA</Ctry>\r\n                            </PstlAdr>\r\n                            <Id>\r\n                                <OrgId>\r\n                                    <LEI>HD5O21F80BF95699B348</LEI>\r\n                                </OrgId>\r\n                            </Id>\r\n                        </Pty>\r\n                    </Cdtr>\r\n                    <CdtrAcct>\r\n                        <Id>\r\n                            <IBAN>SA4420000001234567891234</IBAN>\r\n                        </Id>\r\n                    </CdtrAcct>\r\n                </OrgnlTxRef>\r\n            </TxInfAndSts>\r\n            </CxlDtls>\r\n        </RsltnOfInvstgtn>\r\n    </Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorDevUrl}}/admin/upload",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload xml camt.053 dev",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Send 11 asynchronous requests\r",
+									"const url = pm.request.url.toString();\r",
+									"const requests = [];\r",
+									"\r",
+									"for (let i = 0; i < 11; i++) {\r",
+									"    requests.push(\r",
+									"        new Promise((resolve) => {\r",
+									"            pm.sendRequest({\r",
+									"                url: url,\r",
+									"                method: 'POST',\r",
+									"                body: pm.request.body\r",
+									"            }, (err, res) => {\r",
+									"                if (err) console.log(err);\r",
+									"                resolve(res);\r",
+									"            });\r",
+									"        })\r",
+									"    );\r",
+									"}\r",
+									"\r",
+									"// Wait for all requests to complete\r",
+									"Promise.all(requests)\r",
+									"    .then(responses => {\r",
+									"        responses.forEach((res, index) => {\r",
+									"            console.log(`Request ${index + 1}: Status ${res.code}`);\r",
+									"        });\r",
+									"    });"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n<BizMsgEnvlp>\r\n<AppHdr xmlns=\"urn:iso:std:iso:20022:tech:xsd:head.001.001.02\">\r\n    <Fr>\r\n        <FIId>\r\n            <FinInstnId>\r\n                <Othr>\r\n                    <Id>XMBER011BRFF</Id>\r\n                </Othr>\r\n            </FinInstnId>\r\n        </FIId>\r\n    </Fr>\r\n    <To>\r\n        <FIId>\r\n            <FinInstnId>\r\n                <Othr>\r\n                    <Id>XMBER005BRSS</Id>\r\n                </Othr>\r\n            </FinInstnId>\r\n        </FIId>\r\n    </To>\r\n    <BizMsgIdr>biz-TguFA1A0YK1225</BizMsgIdr>\r\n    <MsgDefIdr>camt.053.001.08</MsgDefIdr>\r\n    <BizSvc>CTR</BizSvc>\r\n    <CreDt>2025-05-16T05:58:23.130786125+00:00</CreDt>\r\n    <PssblDplct>false</PssblDplct>\r\n    <Prty>NORM</Prty>\r\n</AppHdr>\r\n<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:camt.053.001.08\">\r\n    <BkToCstmrStmt>\r\n        <GrpHdr>\r\n            <MsgId>0AxsvHQXyIYAEtQgVZ1232</MsgId>\r\n            <CreDtTm>2025-05-16T05:58:23.130926888+00:00</CreDtTm>\r\n        </GrpHdr>\r\n        <Stmt>\r\n            <Id>HJhkTHD5R4YROApuBj1223</Id>\r\n            <StmtPgntn>\r\n                <PgNb>0</PgNb>\r\n                <LastPgInd>true</LastPgInd>\r\n            </StmtPgntn>\r\n            <CreDtTm>2025-05-16T05:58:23.130552318+00:00</CreDtTm>\r\n            <FrToDt>\r\n                <FrDtTm>2025-05-16T00:00:00+00:00</FrDtTm>\r\n                <ToDtTm>2025-05-16T23:59:59+00:00</ToDtTm>\r\n            </FrToDt>\r\n            <Acct>\r\n                <Id>\r\n                    <Othr>\r\n                        <Id>XMBER011BRFF_CLR_SAR</Id>\r\n                    </Othr>\r\n                </Id>\r\n                <Ccy>SAR</Ccy>\r\n                <Svcr>\r\n                    <FinInstnId>\r\n                        <Othr>\r\n                            <Id>XMBER011BRFF</Id>\r\n                        </Othr>\r\n                    </FinInstnId>\r\n                </Svcr>\r\n            </Acct>\r\n            <Bal>\r\n                <Tp>\r\n                    <CdOrPrtry>\r\n                        <Cd>OPBD</Cd>\r\n                    </CdOrPrtry>\r\n                </Tp>\r\n                <Amt Ccy=\"XTS\">0.10000</Amt>\r\n                <CdtDbtInd>DBIT</CdtDbtInd>\r\n                <Dt>\r\n                    <Dt>2025-05-16</Dt>\r\n                </Dt>\r\n            </Bal>\r\n            <Bal>\r\n                <Tp>\r\n                    <CdOrPrtry>\r\n                        <Cd>CLBD</Cd>\r\n                    </CdOrPrtry>\r\n                </Tp>\r\n                <Amt Ccy=\"XTS\">0.00000</Amt>\r\n                <CdtDbtInd>DBIT</CdtDbtInd>\r\n                <Dt>\r\n                    <Dt>2025-05-16</Dt>\r\n                </Dt>\r\n            </Bal>\r\n            <TxsSummry>\r\n                <TtlNtries>\r\n                    <NbOfNtries>0</NbOfNtries>\r\n                    <Sum>0.00000</Sum>\r\n                </TtlNtries>\r\n                <TtlCdtNtries>\r\n                    <NbOfNtries>0</NbOfNtries>\r\n                    <Sum>0.00000</Sum>\r\n                </TtlCdtNtries>\r\n                <TtlDbtNtries>\r\n                    <NbOfNtries>0</NbOfNtries>\r\n                    <Sum>0.00000</Sum>\r\n                </TtlDbtNtries>\r\n            </TxsSummry>\r\n        </Stmt>\r\n    </BkToCstmrStmt>\r\n</Document>\r\n</BizMsgEnvlp>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{emulatorDevUrl}}/admin/upload",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"admin",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate recall (camt.056) dev",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{emulatorDevUrl}}/credit-transfer/{{ctSender}}/{{clrSysRef}}/recall",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"credit-transfer",
+								"{{ctSender}}",
+								"{{clrSysRef}}",
+								"recall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate recall (camt.056) stage",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const urls = [\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall',\r",
+									"  'https://iso-emulator.dev.emily.tech/credit-transfer/XMBER007SAFF/XCTR2025139066723457801/recall'\r",
+									"];\r",
+									"\r",
+									"urls.forEach((url, index) => {\r",
+									"  pm.sendRequest({\r",
+									"    url: url,\r",
+									"    method: 'GET'\r",
+									"  }, function (err, res) {\r",
+									"    if (err) {\r",
+									"      console.error(`Request ${index + 1} failed:`, err);\r",
+									"    } else {\r",
+									"      console.log(`Request ${index + 1} status:`, res.code);\r",
+									"    }\r",
+									"  });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{emulatorStageUrl}}/credit-transfer/{{ctSender}}/{{clrSysRef}}/recall",
+							"host": [
+								"{{emulatorStageUrl}}"
+							],
+							"path": [
+								"credit-transfer",
+								"{{ctSender}}",
+								"{{clrSysRef}}",
+								"recall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate return (pacs.004) dev",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{emulatorDevUrl}}/credit-transfer/{{ctReceiver}}/{{clrSysRef}}/return",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"credit-transfer",
+								"{{ctReceiver}}",
+								"{{clrSysRef}}",
+								"return"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate return (pacs.004) stage",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{emulatorStageUrl}}/credit-transfer/{{ctReceiver}}/{{clrSysRef}}/return",
+							"host": [
+								"{{emulatorStageUrl}}"
+							],
+							"path": [
+								"credit-transfer",
+								"{{ctReceiver}}",
+								"{{clrSysRef}}",
+								"return"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate reject-recall (camt.029) dev",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/xml"
+							}
+						],
+						"url": {
+							"raw": "{{emulatorDevUrl}}/credit-transfer/{{ctReceiver}}/{{clrSysRef}}/recall-reject",
+							"host": [
+								"{{emulatorDevUrl}}"
+							],
+							"path": [
+								"credit-transfer",
+								"{{ctReceiver}}",
+								"{{clrSysRef}}",
+								"recall-reject"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exchange DDT",
+			"item": [
+				{
+					"name": "Create order DDT",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"    url: \"https://keycloak.dev.emily.tech/realms/backoffice/protocol/openid-connect/token\",\r",
+									"    method: \"POST\",\r",
+									"    header: {\r",
+									"        \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: \"urlencoded\",\r",
+									"        urlencoded: [\r",
+									"            { key: \"client_id\", value: \"front-client\" },\r",
+									"            { key: \"username\", value: \"admin\" },\r",
+									"            { key: \"password\", value: \"emily_2024!\" },\r",
+									"            { key: \"grant_type\", value: \"password\" }\r",
+									"        ]\r",
+									"    }\r",
+									"}, function (err, res) {\r",
+									"    if (err) {\r",
+									"        console.error(\"Auth request failed:\", err);\r",
+									"        return;\r",
+									"    }\r",
+									"\r",
+									"    const json = res.json();\r",
+									"    if (json.access_token) {\r",
+									"        pm.collectionVariables.set(\"access_token\", json.access_token);\r",
+									"        console.log(\"Access token set.\");\r",
+									"    } else {\r",
+									"        console.warn(\"Access token not found in response:\", json);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"\r",
+									"let xmi = pm.iterationData.get(\"xmi\"); \r",
+									"\r",
+									"console.log(\"Raw XMI from CSV:\", xmi);\r",
+									"\r",
+									"if (xmi !== undefined && xmi !== null) {\r",
+									"    let cleanedXmi = String(xmi).replace(/['\"]/g, '');\r",
+									"    pm.collectionVariables.set(\"cleanedXmi\", cleanedXmi);\r",
+									"} else {\r",
+									"    console.warn(\"memberXmi is undefined or null\");\r",
+									"    pm.collectionVariables.set(\"cleanedXmi\", '');\r",
+									"}\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"constraint\": \"GTC\",\r\n    \"left_currency\": \"\",\r\n    \"right_currency\": \"\",\r\n    \"quantity\": 150,\r\n    \"direction\": \"ASK\",\r\n    \"price\": 1,\r\n    \"order_type\": \"LIMIT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{boDevUrl}}/api/v1/orders-admin/create?memberXmi={{orderInitiator}}",
+							"host": [
+								"{{boDevUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders-admin",
+								"create"
+							],
+							"query": [
+								{
+									"key": "memberXmi",
+									"value": "{{orderInitiator}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "boDevUrl",
+			"value": ""
+		},
+		{
+			"key": "emulatorDevUrl",
+			"value": ""
+		},
+		{
+			"key": "restapiDevUrl",
+			"value": ""
+		},
+		{
+			"key": "keycloakUrl",
+			"value": ""
+		},
+		{
+			"key": "sandboxSwaggerUrl",
+			"value": ""
+		},
+		{
+			"key": "okxUrl",
+			"value": ""
+		},
+		{
+			"key": "mpDevUrl",
+			"value": ""
+		},
+		{
+			"key": "emulatorStageUrl",
+			"value": ""
+		},
+		{
+			"key": "clrSysRef",
+			"value": ""
+		},
+		{
+			"key": "ctSender",
+			"value": ""
+		},
+		{
+			"key": "ctReceiver",
+			"value": ""
+		},
+		{
+			"key": "orderInitiator",
+			"value": ""
+		}
+	]
+}
