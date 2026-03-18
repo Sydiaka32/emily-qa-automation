@@ -5,7 +5,7 @@ Automation framework for a FinTech web-service platform, built around **API-firs
 ## What this project covers
 
 - **API regression testing** across multiple bounded contexts (e.g. core, clearing, exchange, credit-transfer)
-- **Auth flows** (OIDC-style token acquisition via an identity provider)
+- **Auth flows** 
 - **Reusable API client helpers** (GET/POST/PUT/DELETE wrappers with safe JSON parsing)
 - **Environment-driven configuration** via `dotenv`
 - **Data generation** utilities (Faker + date helpers)
@@ -45,59 +45,6 @@ Automation framework for a FinTech web-service platform, built around **API-firs
 ```bash
 npm ci
 ```
-
-### Configure environment variables
-
-This project reads configuration from environment variables in `test.config.ts` via `dotenv`. Create a local `.env` file (not committed) with values matching your environment.
-
-Minimum common variables used by tests include:
-
-```bash
-# Base URLs
-API_BASE_URL=
-BACKOFFICE_BASE_URL=
-PUBLIC_BASE_URL=
-
-# Auth / Identity provider (Keycloak-like)
-KEYCLOAK_MP_URL=
-KEYCLOACK_MP_LOGIN=
-KEYCLOACK_MP_PWD=
-
-# Test principals
-MEMBERNAME=
-PASSWORD=
-MAKER_NAME=
-TAKERNAME=
-OPERATOR_NAME=
-
-# Identifiers
-MEMBER_XMI=
-MAKER_XMI=
-CL_MEMBER_XMI=
-CL_MEMBER_NAME=
-INDIRECT_MEMBER_XMI=
-INDIRECT_MEMBER_NAME=
-SET_MEMBER_XMI=
-RECEIVER_NAME=
-RECEIVER_XMI=
-
-# Public API
-PUBLIC_API_KEY=
-
-# Messaging (if applicable to your environment)
-SENDER_MEMBER_ISO=
-RECEIVER_CLEARING_ISO=
-RECEIVER_MEMBER_ISO=
-
-# Optional: DB verification (ledger)
-DB_HOST_LEDGER=
-DB_PORT=
-DB_NAME_LEDGER=
-DB_USERNAME_LEDGER=
-DB_PASSWORD_LEDGER=
-```
-
-If your environment uses different naming conventions, align them in `test.config.ts` once, and the rest of the framework stays clean.
 
 ## Running tests
 
@@ -143,12 +90,3 @@ If you want Allure reporting, enable a Playwright reporter configuration and gen
 ## Performance testing
 
 A JMeter plan is included in `performanceTestPlans/`. It’s meant as a reference artifact showing how load testing can complement functional API coverage.
-
-## Notes on security & portability
-
-- **Secrets must come from environment variables**. Do not commit credentials or tokens.
-- If you plan to publish this repository, **audit test data and configs** (including any JMeter plans) and redact sensitive values.
-
-## License
-
-Add a license that matches how you intend to share this project (e.g., MIT for portfolio use).
