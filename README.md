@@ -2,8 +2,6 @@
 
 Automation framework for a FinTech web-service platform, built around **API-first testing** with reusable utilities for **authentication**, **request context management**, **domain-specific helpers**, and optional **database-level verification**.
 
-This repository is designed to be portfolio-presentable: it demonstrates how to structure an automation codebase as a maintainable product (not just a collection of tests).
-
 ## What this project covers
 
 - **API regression testing** across multiple bounded contexts (e.g. core, clearing, exchange, credit-transfer)
